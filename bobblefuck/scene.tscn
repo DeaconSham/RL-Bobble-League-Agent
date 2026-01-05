@@ -1,13 +1,23 @@
 [gd_scene load_steps=3 format=3 uid="uid://di7ryefmw5ax2"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_drvgu"]
+[sub_resource type="BoxMesh" id="BoxMesh_drvgu"]
 
-[sub_resource type="BoxMesh" id="BoxMesh_ulcgi"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_ulcgi"]
 
 [node name="Scene" type="Node3D"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_drvgu")
+[node name="RigidBody3D" type="RigidBody3D" parent="."]
+transform = Transform3D(15.759, 0, 0, 0, 0.313413, 0, 0, 0, 24.943, 0.0192986, -0.0385475, 0.00843239)
+gravity_scale = 0.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D"]
-mesh = SubResource("BoxMesh_ulcgi")
+[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+mesh = SubResource("BoxMesh_drvgu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+shape = SubResource("BoxShape3D_ulcgi")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0364017, 1.77164, 19.4727)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.86613, 0.499819, 0, -0.499819, -0.86613, -0.252201, 9.11329, -36.3563)
