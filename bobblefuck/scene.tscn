@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://di7ryefmw5ax2"]
+[gd_scene load_steps=15 format=3 uid="uid://di7ryefmw5ax2"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dggawwvebaq4n" path="res://BallProperties.tres" id="1_3253y"]
-[ext_resource type="Script" uid="uid://ejvy1c37bkr7" path="res://Player.cs" id="1_nxogm"]
-[ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://LaunchManager.cs" id="2_3253y"]
+[ext_resource type="Script" uid="uid://ejvy1c37bkr7" path="res://Scripts/Player.cs" id="1_nxogm"]
+[ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://Scripts/LaunchManager.cs" id="2_3253y"]
+[ext_resource type="ArrayMesh" uid="uid://bmiqe0y8cj0om" path="res://Models/Glasses.obj" id="3_u3cyc"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_drvgu"]
 
@@ -17,6 +18,8 @@ albedo_color = Color(0.243585, 0.826091, 0.944989, 1)
 [sub_resource type="SphereMesh" id="SphereMesh_nxogm"]
 material = SubResource("StandardMaterial3D_ulcgi")
 
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u3cyc"]
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_drvgu"]
 albedo_color = Color(0.995546, 0.0564596, 0.141266, 1)
 
@@ -24,6 +27,12 @@ albedo_color = Color(0.995546, 0.0564596, 0.141266, 1)
 material = SubResource("StandardMaterial3D_drvgu")
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nxogm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_m7jmp"]
+albedo_color = Color(0.28485, 0.28485, 0.28485, 1)
+rim = 0.18
+rim_tint = 0.89
+clearcoat_roughness = 0.62
 
 [node name="Scene" type="Node3D"]
 
@@ -67,43 +76,49 @@ mesh = SubResource("SphereMesh_nxogm")
 [node name="Players" type="Node" parent="Dynamic"]
 
 [node name="Player" type="RigidBody3D" parent="Dynamic/Players"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11227, 6.01025)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.11227, 6.01025)
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_u3cyc")
 linear_damp = 0.6
 script = ExtResource("1_nxogm")
 launchForce = 15.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Players/Player"]
+[node name="Body" type="MeshInstance3D" parent="Dynamic/Players/Player"]
 mesh = SubResource("CapsuleMesh_ulcgi")
 
 [node name="Collider" type="CollisionShape3D" parent="Dynamic/Players/Player"]
 shape = SubResource("CapsuleShape3D_nxogm")
 
-[node name="feet 😋" type="Node3D" parent="Dynamic/Players/Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+[node name="Glasses" type="MeshInstance3D" parent="Dynamic/Players/Player"]
+transform = Transform3D(0.032, 0, 0, 0, 0.032, 0, 0, 0, 0.032, 0, 0.323838, 0.49381)
+mesh = ExtResource("3_u3cyc")
+surface_material_override/0 = SubResource("StandardMaterial3D_m7jmp")
 
 [node name="Player2" type="RigidBody3D" parent="Dynamic/Players"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.14993, 1.11227, 2.97552)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 2.25449, 1.11227, 9.10996)
 axis_lock_linear_y = true
 axis_lock_angular_x = true
 axis_lock_angular_z = true
+physics_material_override = SubResource("PhysicsMaterial_u3cyc")
 linear_damp = 0.6
 script = ExtResource("1_nxogm")
 launchForce = 15.0
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Players/Player2"]
+[node name="Body" type="MeshInstance3D" parent="Dynamic/Players/Player2"]
 mesh = SubResource("CapsuleMesh_ulcgi")
 
 [node name="Collider" type="CollisionShape3D" parent="Dynamic/Players/Player2"]
 shape = SubResource("CapsuleShape3D_nxogm")
 
-[node name="feet 😋" type="Node3D" parent="Dynamic/Players/Player2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+[node name="Glasses" type="MeshInstance3D" parent="Dynamic/Players/Player2"]
+transform = Transform3D(0.032, 0, 0, 0, 0.032, 0, 0, 0, 0.032, 0, 0.323838, 0.49381)
+mesh = ExtResource("3_u3cyc")
+surface_material_override/0 = SubResource("StandardMaterial3D_m7jmp")
 
 [node name="LaunchManager" type="Node" parent="." node_paths=PackedStringArray("camera", "players")]
 script = ExtResource("2_3253y")
 camera = NodePath("../Static/Camera3D")
 players = NodePath("../Dynamic/Players")
-selectDistance = 100000.0
+selectDistance = 5.0
