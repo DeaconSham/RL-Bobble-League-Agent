@@ -1,23 +1,109 @@
-[gd_scene load_steps=3 format=3 uid="uid://di7ryefmw5ax2"]
+[gd_scene load_steps=12 format=3 uid="uid://di7ryefmw5ax2"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://dggawwvebaq4n" path="res://BallProperties.tres" id="1_3253y"]
+[ext_resource type="Script" uid="uid://ejvy1c37bkr7" path="res://Player.cs" id="1_nxogm"]
+[ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://LaunchManager.cs" id="2_3253y"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_drvgu"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ulcgi"]
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_drvgu"]
+points = PackedVector3Array(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5, -0.5, 0.5, -0.5, 0.5, -0.5)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_drvgu"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulcgi"]
+albedo_color = Color(0.243585, 0.826091, 0.944989, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_nxogm"]
+material = SubResource("StandardMaterial3D_ulcgi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_drvgu"]
+albedo_color = Color(0.995546, 0.0564596, 0.141266, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ulcgi"]
+material = SubResource("StandardMaterial3D_drvgu")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nxogm"]
 
 [node name="Scene" type="Node3D"]
 
-[node name="RigidBody3D" type="RigidBody3D" parent="."]
-transform = Transform3D(15.759, 0, 0, 0, 0.313413, 0, 0, 0, 24.943, 0.0192986, -0.0385475, 0.00843239)
-gravity_scale = 0.0
+[node name="Static" type="Node" parent="."]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RigidBody3D"]
+[node name="Floor" type="RigidBody3D" parent="Static"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0192986, -0.0385475, 0.00843239)
+gravity_scale = 0.0
+freeze = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Static/Floor"]
+transform = Transform3D(19.7993, 0, 0, 0, 0.288315, 0, 0, 0, 33.785, 0, 0, 0)
 mesh = SubResource("BoxMesh_drvgu")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
-shape = SubResource("BoxShape3D_ulcgi")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Floor"]
+transform = Transform3D(19.7993, 0, 0, 0, 0.288315, 0, 0, 0, 33.785, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_drvgu")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0364017, 1.77164, 19.4727)
+[node name="Camera3D" type="Camera3D" parent="Static"]
+transform = Transform3D(-2.46627e-08, -0.825626, 0.564218, -3.60893e-08, 0.564218, 0.825626, -1, -1.77636e-15, -4.37114e-08, 21.0237, 30.3144, 0)
+fov = 37.7
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.86613, 0.499819, 0, -0.499819, -0.86613, -0.252201, 9.11329, -36.3563)
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Static"]
+transform = Transform3D(0.596297, 0.72121, 0.352544, -0.290151, -0.215843, 0.932322, 0.748494, -0.658231, 0.0805533, -0.252201, 17.6776, -21.3794)
+light_energy = 0.677
+
+[node name="Dynamic" type="Node" parent="."]
+
+[node name="Ball" type="RigidBody3D" parent="Dynamic"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.910882, 0)
+mass = 0.2
+physics_material_override = ExtResource("1_3253y")
+linear_damp = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dynamic/Ball"]
+shape = SubResource("SphereShape3D_drvgu")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Ball"]
+mesh = SubResource("SphereMesh_nxogm")
+
+[node name="Players" type="Node" parent="Dynamic"]
+
+[node name="Player" type="RigidBody3D" parent="Dynamic/Players"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.11227, 6.01025)
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+linear_damp = 0.6
+script = ExtResource("1_nxogm")
+launchForce = 15.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Players/Player"]
+mesh = SubResource("CapsuleMesh_ulcgi")
+
+[node name="Collider" type="CollisionShape3D" parent="Dynamic/Players/Player"]
+shape = SubResource("CapsuleShape3D_nxogm")
+
+[node name="feet 😋" type="Node3D" parent="Dynamic/Players/Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="Player2" type="RigidBody3D" parent="Dynamic/Players"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.14993, 1.11227, 2.97552)
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+linear_damp = 0.6
+script = ExtResource("1_nxogm")
+launchForce = 15.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Players/Player2"]
+mesh = SubResource("CapsuleMesh_ulcgi")
+
+[node name="Collider" type="CollisionShape3D" parent="Dynamic/Players/Player2"]
+shape = SubResource("CapsuleShape3D_nxogm")
+
+[node name="feet 😋" type="Node3D" parent="Dynamic/Players/Player2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="LaunchManager" type="Node" parent="." node_paths=PackedStringArray("camera", "players")]
+script = ExtResource("2_3253y")
+camera = NodePath("../Static/Camera3D")
+players = NodePath("../Dynamic/Players")
+selectDistance = 100000.0
