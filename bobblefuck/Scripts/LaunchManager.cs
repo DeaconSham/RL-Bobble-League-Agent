@@ -70,9 +70,6 @@ public partial class LaunchManager : Node
         Plane plane = Plane.PlaneXZ;
         Vector3? intersect = plane.IntersectsRay(camera.Position, camera.ProjectRayNormal(mousePosition));
         if (intersect != null) {
-            GD.Print("\n\n\n\n\n\n\n");
-            GD.Print(camera.ProjectRayNormal(mousePosition));
-            GD.Print(intersect.Value);
             return intersect.Value;
         }
         else {
