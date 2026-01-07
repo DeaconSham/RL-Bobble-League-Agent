@@ -1,22 +1,26 @@
 import os
-cur_path = os.path.realpath(__file__)
-cur_dir = os.path.dirname(cur_path)
 
-scene_f = open(cur_dir + "\\bobblefuck\\scene.tscn", "r")
-file_array = []
-line = scene_f.readline()
+def get_positions():
+    cur_path = os.path.realpath(__file__)
+    cur_dir = os.path.dirname(cur_path)
 
-while line != '':
-    file_array.append(line)
+    scene_f = open(cur_dir + "\\bobblefuck\\scene.tscn", "r")
+    file_array = []
     line = scene_f.readline()
 
-pos_ball = []
+    while line != '':
+        file_array.append(line)
+        line = scene_f.readline()
 
-for line in file_array:
-    if line[:17] == '[node name=\"Ball\"':
-        # some regex to come up with ball_extract
-        # pos_ball = extracted_ball_pos
-        pass
+    pos_ball = []
 
-if pos_ball == []:
-    print('you goofed')
+    for line in file_array:
+        if line[:17] == '[node name=\"Ball\"':
+            # some regex to come up with ball_extract
+            # pos_ball = extracted_ball_pos
+            pass
+    
+    if pos_ball == []:
+        print('you goofed')
+    
+    pos_players = [[], [], []]
