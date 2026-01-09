@@ -11,7 +11,7 @@ def mlp(sizes, activation = nn.Tanh):
     
     :param sizes: List of integers defining the number of neurons in each layer
     :param activation: Activation function used between layers
-    :return: Sequential neural network
+    :return: A neural network
     """
     layers = []
     for i in range(len(sizes) - 1):
