@@ -11,6 +11,7 @@ def mlp(sizes, activation = nn.Tanh):
     
     :param sizes: List of integers defining the number of neurons in each layer
     :param activation: Activation function used between layers
+    :return: Sequential neural network
     """
     layers = []
     for i in range(len(sizes) - 1):
@@ -19,7 +20,7 @@ def mlp(sizes, activation = nn.Tanh):
             layers.append(activation())
     return nn.Sequential(*layers)
 
-class actor_string_neural_network(nn.Module):
+class actor_critic_neural_network(nn.Module):
     """
         Docstring for actor_critic_neural_network
 
@@ -34,31 +35,23 @@ class actor_string_neural_network(nn.Module):
     def __init__(self, obs_dim, act_dim=6, hidden=[256, 256]):
         super().__init__()
 
-        # policy network(which outputs action mean)
         self.pi_net = mlp([obs_dim] + hidden + [act_dim])
         self.log_std = nn.Parameter(-0.5 * torch.ones(act_dim))
-
-        # value network
         self.v_net = mlp([obs_dim] + hidden + [1])
     
-    def policy(self, obs):
+    def forward(self, obs):
         """
-        Docstring for policy
-        
-        Forward propagation for actor neural network
-        Returns a normal probability distribution 
+        Docstring for forward
 
+        Forward propagation through both neural networks
+        
+        :param obs: Observation tensor
+        :return dist: Normal distribution over actions
+        :return value: Value estimate
         """
+
         mu = self.pi_net(obs)
         std = self.log_std.exp()
-        return Normal(mu, std)
-    
-    def value(self, obs):
-        """
-        Docstring for value
-        
-        Forward propagation for critic neural network
-        Returns the estimated value of the current state
-
-        """
-        return self.v_net(obs).squeeze(-1)
+        dist = Normal(mu, std)
+        value = self.v_net(obs).squeeze(-1)
+        return dist, value
