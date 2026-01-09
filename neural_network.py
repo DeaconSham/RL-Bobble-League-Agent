@@ -1,7 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
-from torch.distributions import Normal
+from torch.distributions import Normal, Independent
 
 def mlp(sizes, activation = nn.Tanh):
     """
@@ -53,5 +53,6 @@ class actor_critic_neural_network(nn.Module):
         mu = self.pi_net(obs)
         std = self.log_std.exp()
         dist = Normal(mu, std)
+        dist = Independent(dist, 1)
         value = self.v_net(obs).squeeze(-1)
         return dist, value
