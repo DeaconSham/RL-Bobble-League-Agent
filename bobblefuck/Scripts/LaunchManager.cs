@@ -7,6 +7,7 @@ public partial class LaunchManager : Node
     [Export] Camera3D camera;
     [Export] Node players;
     [Export] float selectDistance;
+    [Export] float dragDistance;
     Player launchPlayer = null;
     
     public override void _Input(InputEvent @event)
@@ -18,16 +19,17 @@ public partial class LaunchManager : Node
             }
             
             if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.IsReleased()) {
-                if (launchPlayer != null) {
-                    Vector3 launchVector = new Vector3(launchPlayer.Position.X, 0, launchPlayer.Position.Z) - MousePosition();
-                    launchPlayer.Launch(launchVector);
-                }
+                launchPlayer.Launch();
+                launchPlayer = null;
             }
         }
     }
 
     public override void _Process(double delta) {
-
+        if (launchPlayer != null) {
+            Vector3 launchVector = (new Vector3(launchPlayer.Position.X, 0, launchPlayer.Position.Z) - MousePosition()) / dragDistance;
+            launchPlayer.input = launchVector;
+        }
     }
 
     // kind of shit but i didnt want to deal with godot raycast and colliders
@@ -75,5 +77,9 @@ public partial class LaunchManager : Node
         else {
             return new Vector3(0, 0, 0);
         }
+    }
+
+    void DrawArrows() {
+        
     }
 }

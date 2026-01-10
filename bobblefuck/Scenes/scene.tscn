@@ -49,13 +49,16 @@ mesh = SubResource("SphereMesh_nxogm")
 [node name="Player" parent="Dynamic/Players" instance=ExtResource("2_u3cyc")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.11227, 6.01025)
 
-[node name="LaunchManager" type="Node" parent="." node_paths=PackedStringArray("camera", "players")]
-script = ExtResource("2_3253y")
-camera = NodePath("../Static/Camera3D")
-players = NodePath("../Dynamic/Players")
-selectDistance = 5.0
+[node name="Managers" type="Node" parent="."]
 
-[node name="JsonExporter" type="Node" parent="." node_paths=PackedStringArray("players", "ball")]
+[node name="LaunchManager" type="Node" parent="Managers" node_paths=PackedStringArray("camera", "players")]
+script = ExtResource("2_3253y")
+camera = NodePath("../../Static/Camera3D")
+players = NodePath("../../Dynamic/Players")
+selectDistance = 5.0
+dragDistance = 2.0
+
+[node name="JsonExporter" type="Node" parent="Managers" node_paths=PackedStringArray("players", "ball")]
 script = ExtResource("5_yp48q")
-players = NodePath("../Dynamic/Players")
-ball = NodePath("../Dynamic/Ball")
+players = NodePath("../../Dynamic/Players")
+ball = NodePath("../../Dynamic/Ball")

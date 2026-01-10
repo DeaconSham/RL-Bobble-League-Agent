@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://c5w5xc037a2gj"]
+[gd_scene load_steps=10 format=3 uid="uid://c5w5xc037a2gj"]
 
 [ext_resource type="Script" uid="uid://ejvy1c37bkr7" path="res://Scripts/Player.cs" id="1_onrkg"]
 [ext_resource type="ArrayMesh" uid="uid://bmiqe0y8cj0om" path="res://Models/Glasses.obj" id="2_i3pqv"]
+[ext_resource type="Texture2D" uid="uid://jggt1ns4ygch" path="res://Texture/Base.png" id="3_vgqql"]
+[ext_resource type="Texture2D" uid="uid://c25q5imc8v57v" path="res://Texture/Head.png" id="4_fkybt"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u3cyc"]
 
@@ -19,7 +21,7 @@ rim = 0.18
 rim_tint = 0.89
 clearcoat_roughness = 0.62
 
-[node name="Player" type="RigidBody3D"]
+[node name="Player" type="RigidBody3D" node_paths=PackedStringArray("ArrowBase", "ArrowTip")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
 axis_lock_linear_y = true
 axis_lock_angular_x = true
@@ -29,6 +31,11 @@ linear_damp = 0.6
 angular_damp = 0.3
 script = ExtResource("1_onrkg")
 launchForce = 15.0
+baseWidth = 0.15
+baseWidthCoef = 1.0
+tipSize = 0.1
+ArrowBase = NodePath("Arrow/Base")
+ArrowTip = NodePath("Arrow/Head")
 
 [node name="Body" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_ulcgi")
@@ -40,3 +47,18 @@ shape = SubResource("CapsuleShape3D_nxogm")
 transform = Transform3D(0.032, 0, 0, 0, 0.032, 0, 0, 0, 0.032, 0, 0.323838, 0.49381)
 mesh = ExtResource("2_i3pqv")
 surface_material_override/0 = SubResource("StandardMaterial3D_m7jmp")
+
+[node name="Arrow" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.99984, 0)
+
+[node name="Base" type="Sprite3D" parent="Arrow"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+visible = false
+axis = 1
+texture = ExtResource("3_vgqql")
+
+[node name="Head" type="Sprite3D" parent="Arrow"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 2.89361e-07, 0, -6.61981)
+visible = false
+axis = 1
+texture = ExtResource("4_fkybt")
