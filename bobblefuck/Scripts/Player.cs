@@ -3,6 +3,8 @@ using System;
 
 public partial class Player : RigidBody3D
 {
+    [Export] public int team = 1;
+    
     [ExportGroup("Physics")] [Export] float launchForce;
 
     [ExportGroup("Visuals")] 
@@ -10,7 +12,6 @@ public partial class Player : RigidBody3D
     [Export] float baseWidthCoef;
     [Export] float tipSize; // 🥵
 
-    public int team = 1;
 
     public Vector3 input;
 
@@ -26,6 +27,8 @@ public partial class Player : RigidBody3D
         
         hidden = false;
         ClearArrow();
+        
+        input = new Vector3(0, 0, 0);
     }
 
     public void DrawArrow() {
@@ -44,7 +47,7 @@ public partial class Player : RigidBody3D
         ArrowTip.Visible = true;
     }
 
-    void ClearArrow() {
+    public void ClearArrow() {
         ArrowBase.Visible = false;
         ArrowTip.Visible = false;
         hidden = true;
