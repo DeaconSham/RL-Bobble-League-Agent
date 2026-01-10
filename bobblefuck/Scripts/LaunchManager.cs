@@ -16,6 +16,7 @@ public partial class LaunchManager : Node
         {
             if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed) {
                 launchPlayer = playerClicked(1);
+                launchPlayer.DrawArrow();
             }
             
             if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.IsReleased()) {

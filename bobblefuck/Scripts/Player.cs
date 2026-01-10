@@ -16,6 +16,7 @@ public partial class Player : RigidBody3D
 
     [Export] Node3D ArrowBase;
     [Export] Node3D ArrowTip;
+    bool hidden = true;
 
     public void Launch() {
         ApplyImpulse(input.Normalized() * launchForce);
@@ -23,19 +24,21 @@ public partial class Player : RigidBody3D
         float angle = Mathf.Atan2(input.X, input.Z);
         Rotation = new Vector3(0, angle, 0);
         
+        hidden = false;
         ClearArrow();
     }
 
-    void DrawArrow() {
+    public void DrawArrow() {
+        hidden = false;
         ArrowBase.Scale = new Vector3(baseWidth, 1, Mathf.Clamp(input.Length(), 0, 1) * baseWidthCoef);
         ArrowTip.Scale = Vector3.One * tipSize;
         
         float angle = Mathf.Atan2(input.X, input.Z);
         ArrowBase.GlobalRotation = new Vector3(0, angle, 0);
-        ArrowTip.GlobalRotation = new Vector3(0, float.RadiansToDegrees(ArrowBase.GlobalRotation.Y), 0);
+        ArrowTip.GlobalRotation = new Vector3(0, ArrowBase.GlobalRotation.Y + float.DegreesToRadians(180), 0);
         
         ArrowBase.GlobalPosition = Position + (input.Normalized() * Mathf.Clamp(input.Length(), 0, 1)) + input.Normalized() * 0.1f;
-        ArrowTip.GlobalPosition = Position + (input.Normalized() * Mathf.Clamp(input.Length(), 0, 1) * 2) + input.Normalized() * 0.1f;
+        ArrowTip.GlobalPosition = Position + (input.Normalized() * Mathf.Clamp(input.Length(), 0, 1) * 2) + input.Normalized() * 0.6f;
         
         ArrowBase.Visible = true;
         ArrowTip.Visible = true;
@@ -44,9 +47,13 @@ public partial class Player : RigidBody3D
     void ClearArrow() {
         ArrowBase.Visible = false;
         ArrowTip.Visible = false;
+        hidden = true;
+        
     }
 
     public override void _Process(double delta) {
-        DrawArrow();
+        if (hidden == false) {
+            DrawArrow();
+        }
     }
 }
