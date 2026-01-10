@@ -1,1 +1,1 @@
-# RL Model for Bobble League
+# RL Bobble League Agent
