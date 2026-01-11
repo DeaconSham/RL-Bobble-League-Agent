@@ -3,11 +3,11 @@ import torch
 import torch.nn as nn
 from torch.distributions import Normal, Independent
 
-def mlp(sizes, activation = nn.Tanh):
+def neural_network(sizes, activation = nn.Tanh):
     """
-    Docstring for mlp
+    Docstring for neural_network
 
-    Helper function to build a multilayer perceptron neural network
+    Helper function to build a neural network
     
     :param sizes: List of integers defining the number of neurons in each layer
     :param activation: Activation function used between layers
@@ -35,9 +35,9 @@ class actor_critic_neural_network(nn.Module):
     def __init__(self, obs_dim, act_dim=6, hidden=[256, 256]):
         super().__init__()
 
-        self.pi_net = mlp([obs_dim] + hidden + [act_dim])
+        self.pi_net = neural_network([obs_dim] + hidden + [act_dim])
         self.log_std = nn.Parameter(-0.5 * torch.ones(act_dim))
-        self.v_net = mlp([obs_dim] + hidden + [1])
+        self.v_net = neural_network([obs_dim] + hidden + [1])
     
     def forward(self, obs):
         """
