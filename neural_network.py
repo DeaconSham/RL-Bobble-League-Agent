@@ -28,11 +28,11 @@ class actor_critic_neural_network(nn.Module):
         Actor (pi_net): Decides what to do (returns action means)
         Critic (v_net): Estimates how good the situation is (returns value) 
         
-        :param obs_dim: Size of the observation vector (TODO)
+        :param obs_dim: Size of the observation vector
         :param act_dim: Size of the action vector
         :param hidden: List defining hidden layers in neural network
         """
-    def __init__(self, obs_dim, act_dim=6, hidden=[256, 256]):
+    def __init__(self, obs_dim=14, act_dim=6, hidden=[256, 256]):
         super().__init__()
 
         self.pi_net = neural_network([obs_dim] + hidden + [act_dim])
