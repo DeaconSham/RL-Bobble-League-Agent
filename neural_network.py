@@ -56,3 +56,39 @@ class actor_critic_neural_network(nn.Module):
         dist = Independent(dist, 1)
         value = self.v_net(obs).squeeze(-1)
         return dist, value
+    
+    def step(self, obs):
+        """
+        Docstring for step
+        
+        Training method: returns action, value, log_prob as numpy array.
+        """
+        with torch.no_grad():
+            device = next(self.parameters()).device
+            obs_tensor = torch.as_tensor(obs, dtype=torch.float32).to(device)
+
+            dist, value = self.forward(obs_tensor)
+            action = dist.sample()
+            log_prob = dist.log_prob(action)
+
+        return action.cpu().numpy(), value.cpu().item(), log_prob.cpu().item()
+    
+    def act(self, obs, deterministic=False):
+        """
+        Docstring for act
+        
+        Inference method: returns action as numpy array.
+        """
+        with torch.no_grad():
+            device = next(self.parameters()).device
+            obs_tensor = torch.as_tensor(obs, dtype=torch.float32).to(device)
+
+            mu = self.pi_net(obs_tensor)
+            if deterministic:
+                action = mu
+            else:
+                std = self.log_std.exp()
+                dist = Independent(Normal(mu, std), 1)
+                action = dist.sample()
+
+            return action.cpu().numpy()
