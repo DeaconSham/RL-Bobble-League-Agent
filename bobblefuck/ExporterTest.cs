@@ -34,11 +34,11 @@ public partial class ExporterTest : Node3D {
 
     void Print() {
         GD.Print("Team 1:");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             GD.Print(playerList[i].Position);
         }
         GD.Print("Team 2:");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 4; i < 8; i++) {
             GD.Print(playerList[i].Position);
         }
         GD.Print("ball: " + ball.Position);
