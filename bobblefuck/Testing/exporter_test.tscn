@@ -1,0 +1,92 @@
+[gd_scene load_steps=10 format=3 uid="uid://dyqnudokp5kw7"]
+
+[ext_resource type="Script" uid="uid://d2oa7ti65g3dv" path="res://Testing/ExporterTest.cs" id="1_4ou1a"]
+[ext_resource type="PackedScene" uid="uid://c5w5xc037a2gj" path="res://Scenes/player.tscn" id="1_a782s"]
+[ext_resource type="PhysicsMaterial" uid="uid://dggawwvebaq4n" path="res://BallProperties.tres" id="2_ts3nr"]
+[ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/JsonExporter.cs" id="3_jo5go"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4ou1a"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ulcgi"]
+albedo_color = Color(0.243585, 0.826091, 0.944989, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jo5go"]
+material = SubResource("StandardMaterial3D_ulcgi")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1wmdn"]
+albedo_color = Color(0, 0.5666666, 1, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_c4pg2"]
+material = SubResource("StandardMaterial3D_1wmdn")
+
+[node name="ExporterTest" type="Node3D" node_paths=PackedStringArray("Exporter", "players", "ball")]
+script = ExtResource("1_4ou1a")
+Exporter = NodePath("JsonExporter")
+players = NodePath("Players")
+ball = NodePath("Ball")
+
+[node name="Ball" type="RigidBody3D" parent="."]
+axis_lock_linear_y = true
+mass = 0.2
+physics_material_override = ExtResource("2_ts3nr")
+linear_damp = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("SphereShape3D_4ou1a")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("SphereMesh_jo5go")
+
+[node name="JsonExporter" type="Node" parent="." node_paths=PackedStringArray("players", "ball")]
+script = ExtResource("3_jo5go")
+players = NodePath("../Players")
+ball = NodePath("../Ball")
+
+[node name="Players" type="Node" parent="."]
+
+[node name="Player" parent="Players" instance=ExtResource("1_a782s")]
+
+[node name="Player2" parent="Players" instance=ExtResource("1_a782s")]
+
+[node name="Player3" parent="Players" instance=ExtResource("1_a782s")]
+
+[node name="Player4" parent="Players" instance=ExtResource("1_a782s")]
+
+[node name="Player6" parent="Players" instance=ExtResource("1_a782s")]
+team = 2
+
+[node name="Body" parent="Players/Player6" index="0"]
+mesh = SubResource("CapsuleMesh_c4pg2")
+
+[node name="Player7" parent="Players" instance=ExtResource("1_a782s")]
+team = 2
+
+[node name="Body" parent="Players/Player7" index="0"]
+mesh = SubResource("CapsuleMesh_c4pg2")
+
+[node name="Player8" parent="Players" instance=ExtResource("1_a782s")]
+team = 2
+
+[node name="Body" parent="Players/Player8" index="0"]
+mesh = SubResource("CapsuleMesh_c4pg2")
+
+[node name="Player9" parent="Players" instance=ExtResource("1_a782s")]
+team = 2
+
+[node name="Body" parent="Players/Player9" index="0"]
+mesh = SubResource("CapsuleMesh_c4pg2")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.4105915, 0.9118194, 0, -0.9118194, 0.4105915, 0, 13.639437, 6.7429056)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.2402563, 0)
+light_energy = 20.0
+light_size = 1.0
+shadow_enabled = true
+distance_fade_length = 100.0
+
+[editable path="Players/Player6"]
+[editable path="Players/Player7"]
+[editable path="Players/Player8"]
+[editable path="Players/Player9"]

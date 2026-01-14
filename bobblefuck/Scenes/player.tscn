@@ -58,7 +58,7 @@ axis = 1
 texture = ExtResource("3_vgqql")
 
 [node name="Head" type="Sprite3D" parent="Arrow"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 2.89361e-07, 0, -6.61981)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
 visible = false
 axis = 1
 texture = ExtResource("4_fkybt")
