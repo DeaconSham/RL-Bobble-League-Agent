@@ -1,4 +1,3 @@
-import numpy as np
 import torch
 import torch.nn as nn
 from torch.distributions import Normal, Independent
@@ -62,29 +61,30 @@ class actor_critic_neural_network(nn.Module):
         """
         Docstring for step
         
-        Training method: returns action, value, log_prob as numpy array.
+        Training method: returns action, value, log_prob as torch tensors.
         """
         with torch.no_grad():
             device = next(self.parameters()).device
-            obs_tensor = torch.as_tensor(obs, dtype=torch.float32).to(device)
+            obs_tensor = torch.as_tensor(obs, dtype=torch.float32, device=device)
 
             dist, value = self.forward(obs_tensor)
             action = dist.sample()
             log_prob = dist.log_prob(action)
 
-        return action.cpu().numpy(), value.cpu().item(), log_prob.cpu().item()
+        return action, value, log_prob
     
     def act(self, obs, deterministic=False):
         """
         Docstring for act
         
-        Inference method: returns action as numpy array.
+        Inference method: returns action as torch tensor.
         """
         with torch.no_grad():
             device = next(self.parameters()).device
-            obs_tensor = torch.as_tensor(obs, dtype=torch.float32).to(device)
+            obs_tensor = torch.as_tensor(obs, dtype=torch.float32, device=device)
 
             mu = self.pi_net(obs_tensor)
+            
             if deterministic:
                 action = mu
             else:
@@ -92,4 +92,4 @@ class actor_critic_neural_network(nn.Module):
                 dist = Independent(Normal(mu, std), 1)
                 action = dist.sample()
 
-            return action.cpu().numpy()
+            return action
