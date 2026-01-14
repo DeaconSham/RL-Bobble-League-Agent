@@ -26,7 +26,8 @@ class actor_critic_neural_network(nn.Module):
 
         Class contains two different neural networks:
         Actor (pi_net): Decides what to do (returns action means)
-        Critic (v_net): Estimates how good the situation is (returns value) 
+        Critic (v_net): Estimates how good the situation is (returns value)
+        Standard deviation (log_std): Natural log of the standard deviation, initialized to -0.5 (~0.61) as a parameter to be optimized
         
         :param obs_dim: Size of the observation vector
         :param act_dim: Size of the action vector
@@ -36,8 +37,8 @@ class actor_critic_neural_network(nn.Module):
         super().__init__()
 
         self.pi_net = neural_network([obs_dim] + hidden + [act_dim])
-        self.log_std = nn.Parameter(-0.5 * torch.ones(act_dim))
         self.v_net = neural_network([obs_dim] + hidden + [1])
+        self.log_std = nn.Parameter(-0.5 * torch.ones(act_dim))
     
     def forward(self, obs):
         """
