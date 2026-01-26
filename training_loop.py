@@ -246,7 +246,7 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
     """
     Docstring for ppo_train:
     
-    Proximal Policy Optimization (PPO-Clip) training loop.
+    Proximal policy optimization (PPO-Clip) training loop (copied argument definitions from OpenAI)
 
     Args:
         env_fn : A function which creates a copy of the environment.
