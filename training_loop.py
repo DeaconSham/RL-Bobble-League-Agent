@@ -30,7 +30,7 @@ class ppo_buffer:
         """
         Docstring for ppo_buffer class:
 
-        Buffer for storing trajectories experienced by an agent interacting
+        Buffer for storing trajectories experienced by an agent interacting 
         with the environment, and using generalized advantage estimation (GAE)
         for calculating the advantages of state-action pairs
 
@@ -250,13 +250,10 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
 
     Args:
         env_fn : A function which creates a copy of the environment.
-        actor_critic: The constructor method for a PyTorch Module with an 
-            ``act`` method and ``pi`` module and ``v`` module.
+        actor_critic: The constructor method for a PyTorch Module with an ``act`` method and ``pi`` module and ``v`` module.
         ac_kwargs (dict): Any kwargs appropriate for the actor_critic.
-        steps_per_epoch (int): Number of steps of interaction (state-action pairs) 
-            for the agent and the environment in each epoch.
-        epochs (int): Number of epochs of interaction (equivalent to
-            number of policy updates) to perform.
+        steps_per_epoch (int): Number of steps of interaction (state-action pairs) for the agent and the environment in each epoch.
+        epochs (int): Number of epochs of interaction (equivalent to number of policy updates) to perform.
         gamma (float): Discount factor. (Always between 0 and 1.)
         clip_ratio (float): Hyperparameter for clipping in the policy objective.
             Roughly: how far can the new policy go from the old policy while 
@@ -265,19 +262,14 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
             on the objective anymore. (Usually small, 0.1 to 0.3.)
         pi_lr (float): Learning rate for policy optimizer.
         vf_lr (float): Learning rate for value function optimizer.
-        train_pi_iters (int): Maximum number of gradient descent steps to take 
-            on policy loss per epoch. (Early stopping may cause optimizer
+        train_pi_iters (int): Maximum number of gradient descent steps to take on policy loss per epoch. (Early stopping may cause optimizer
             to take fewer than this.)
-        train_v_iters (int): Number of gradient descent steps to take on 
-            value function per epoch.
-        lam (float): Lambda for GAE-Lambda. (Always between 0 and 1,
-            close to 1.)
+        train_v_iters (int): Number of gradient descent steps to take on value function per epoch.
+        lam (float): Lambda for GAE-Lambda. (Always between 0 and 1, close to 1.)
         max_ep_len (int): Maximum length of trajectory / episode / rollout.
-        target_kl (float): Roughly what KL divergence we think is appropriate
-            between new and old policies after an update. This will get used 
+        target_kl (float): Roughly what KL divergence we think is appropriate between new and old policies after an update. This will get used 
             for early stopping. (Usually small, 0.01 or 0.05.)
-        save_freq (int): How often (in terms of gap between epochs) to save
-            the current policy and value function.
+        save_freq (int): How often (in terms of gap between epochs) to save the current policy and value function.
         device: Device to use for training ('cuda', 'cpu', 'mps', or None for auto-detect).
     """
     
