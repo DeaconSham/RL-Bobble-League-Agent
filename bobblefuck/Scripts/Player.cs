@@ -5,7 +5,11 @@ public partial class Player : RigidBody3D
 {
     [Export] public int team = 1;
     
-    [ExportGroup("Physics")] [Export] float launchForce;
+    [ExportGroup("Physics")] 
+    [Export] float launchForce;
+    [Export] float kickForceCoefficient; // name implies scaling with speed but not currently
+    [Export] float verticallKickForce;
+    [Export] float kickSpeedThreshold;
 
     [ExportGroup("Visuals")] 
     [Export] float baseWidth;
@@ -21,9 +25,11 @@ public partial class Player : RigidBody3D
 
     public void Launch() {
         ApplyImpulse(input.Normalized() * launchForce);
-
-        float angle = Mathf.Atan2(input.X, input.Z);
-        Rotation = new Vector3(0, angle, 0);
+        
+        if (input.Length() > 0) {
+            float angle = Mathf.Atan2(input.X, input.Z);
+            Rotation = new Vector3(0, angle, 0);
+        }
         
         hidden = false;
         ClearArrow();
@@ -57,6 +63,18 @@ public partial class Player : RigidBody3D
     public override void _Process(double delta) {
         if (hidden == false) {
             DrawArrow();
+        }
+    }
+
+    void Kick(Node3D node) {
+        GD.Print(LinearVelocity);
+        if (node.IsInGroup("ball")) {
+            RigidBody3D ball  = (RigidBody3D)node;
+            if ((this.LinearVelocity - ball.LinearVelocity).Length() > kickSpeedThreshold) {
+                Vector3 launchVector = LinearVelocity.Normalized() * kickForceCoefficient + new Vector3(0, verticallKickForce, 0);
+                ball.ApplyCentralImpulse(launchVector);
+                GD.Print("kick performed");
+            }
         }
     }
 }

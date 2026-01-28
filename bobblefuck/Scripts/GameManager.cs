@@ -14,9 +14,6 @@ public partial class GameManager : Node
     int turn = 1;
     int currentTeam = 1;
 
-    List<Player> TeamOne = new List<Player>();
-    List<Player> TeamTwo = new List<Player>();
-
     int scoreA = 0;
     int scoreB = 0;
     
@@ -41,8 +38,11 @@ public partial class GameManager : Node
                 GD.Print("team: " + currentTeam);
                 if (currentTeam == 1) {
                     if (stationaryBall) {
-                        foreach (Player player in TeamOne) {
-                            player.ClearArrow();
+                        // more poopy
+                        foreach (Player player in players.GetChildren()) {
+                            if (player.team == 1) {
+                                player.ClearArrow();
+                            }
                         }
                         currentTeam = 2;
                     }
@@ -67,25 +67,17 @@ public partial class GameManager : Node
     // kind of shit but i didnt want to deal with godot raycast and colliders
     Player playerClicked(int desiredTeam) {
         // Compile the list of players
-        
-        // poopy ass coded keeps getting rearanged
+        // less poopy?
+        List<Player> desiredPlayerList = new List<Player>();
         foreach (Player player in players.GetChildren()) {
             if (player.team == 1) {
-                TeamOne.Add(player);
+                desiredPlayerList.Add(player);
             }
         }
         foreach (Player player in players.GetChildren()) {
             if (player.team == 2) {
-                TeamTwo.Add(player);
+                desiredPlayerList.Add(player);
             }
-        }
-        
-        List<Player> desiredPlayerList = new List<Player>();
-        if (desiredTeam == 1) {
-            desiredPlayerList = TeamOne;
-        }
-        else {
-            desiredPlayerList = TeamTwo;
         }
 
         Vector3 mouse = MousePosition();
@@ -133,7 +125,9 @@ public partial class GameManager : Node
         
         turn++;
     }
-        
+
+    [Export] TextureRect jumps_care;
+    
     public void SCOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE(int team) {
         if (team == 1) {
             scoreA++;
@@ -141,8 +135,12 @@ public partial class GameManager : Node
         else {
             scoreB++;
         }
-        GD.Print("team: " + team + "scored");
+        GD.Print("team: " + team + "scored"); // soooo orangy
         Reset();
+        jumps_care.SetVisible(true);
+        if (jumps_care.Texture is AnimatedTexture animatedTexture) {
+            animatedTexture.CurrentFrame = 0;
+        }
     }
     
     [Export] Node spawns;
@@ -170,7 +168,7 @@ public partial class GameManager : Node
         foreach (var node in spawns.GetChildren()) {
             var spawn = (PlayerSpawn)node;
             Player player = PlayerPrefab.Instantiate<Player>();
-            player.Position = new Vector3(spawn.Position.X, 1, spawn.Position.Z);
+            player.Position = new Vector3(spawn.Position.X, 1.001f, spawn.Position.Z);
             
             MeshInstance3D mesh = player.GetChild(0) as MeshInstance3D;
             if (spawn.Team == 1) { mesh.SetSurfaceOverrideMaterial(0, TeamA);}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://di7ryefmw5ax2"]
+[gd_scene load_steps=22 format=3 uid="uid://di7ryefmw5ax2"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dggawwvebaq4n" path="res://BallProperties.tres" id="1_3253y"]
 [ext_resource type="ArrayMesh" uid="uid://m28s37u4th62" path="res://Models/Arena.obj" id="1_f6sb3"]
@@ -7,8 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://c5w5xc037a2gj" path="res://Scenes/player.tscn" id="2_u3cyc"]
 [ext_resource type="ArrayMesh" uid="uid://dxurrjvub31uu" path="res://Models/ICOBall.obj" id="4_fi6k0"]
 [ext_resource type="Texture2D" uid="uid://cprro5aixexti" path="res://Texture/soccer-and-football-seamless-pattern-sport-ball-texture-football-background-black-and-white-pattern-with-soccer-geometric-hexagons-illustration-on-white-background-vector.jpg" id="5_lnogb"]
+[ext_resource type="Script" uid="uid://x57bo1mj16e" path="res://Scenes/Ball.cs" id="5_mn0nn"]
 [ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/JsonExporter.cs" id="5_yp48q"]
 [ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://Scripts/GameManager.cs" id="6_6yy46"]
+[ext_resource type="Texture2D" uid="uid://crl5ti1q6m56p" path="res://Texture/istockphoto-1334434982-612x612.jpg" id="11_fi6k0"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lq7nq"]
 bounce = 0.5
@@ -30,6 +32,20 @@ albedo_color = Color(7.123351e-06, 0.7028196, 0.9173508, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mn0nn"]
 albedo_color = Color(1, 0.089999974, 0.089999974, 1)
 
+[sub_resource type="Gradient" id="Gradient_fi6k0"]
+colors = PackedColorArray(0, 0, 0, 0, 0.012617188, 0.012617188, 0.012617188, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_lnogb"]
+gradient = SubResource("Gradient_fi6k0")
+
+[sub_resource type="AnimatedTexture" id="AnimatedTexture_fi6k0"]
+frames = 2
+one_shot = true
+frame_0/texture = ExtResource("11_fi6k0")
+frame_0/duration = 0.1
+frame_1/texture = SubResource("GradientTexture1D_lnogb")
+frame_1/duration = 1.0
+
 [node name="Scene" type="Node3D"]
 
 [node name="Static" type="Node" parent="."]
@@ -41,6 +57,7 @@ fov = 27.5
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Static"]
 transform = Transform3D(0.596297, 0.72121, 0.352543, -0.290151, -0.215843, 0.932322, 0.748494, -0.658231, 0.0805532, -0.252201, 17.6776, -83.2342)
+shadow_enabled = true
 
 [node name="Arena" type="Node3D" parent="Static"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.01102829, 0, 0.10069847)
@@ -120,7 +137,11 @@ Team = 2
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mass = 0.2
 physics_material_override = ExtResource("1_3253y")
-linear_damp = 0.2
+contact_monitor = true
+max_contacts_reported = 1
+linear_damp = 0.3
+script = ExtResource("5_mn0nn")
+forfuckssake = 1.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dynamic/Ball"]
 shape = SubResource("SphereShape3D_drvgu")
@@ -134,13 +155,14 @@ surface_material_override/0 = SubResource("StandardMaterial3D_20iik")
 
 [node name="Managers" type="Node" parent="."]
 
-[node name="GameManager" type="Node" parent="Managers" node_paths=PackedStringArray("camera", "players", "ball", "spawns")]
+[node name="GameManager" type="Node" parent="Managers" node_paths=PackedStringArray("camera", "players", "ball", "jumps_care", "spawns")]
 script = ExtResource("6_6yy46")
 camera = NodePath("../../Static/Camera3D")
 players = NodePath("../../Dynamic/Players")
 ball = NodePath("../../Dynamic/Ball")
 selectDistance = 5.0
 dragDistance = 2.0
+jumps_care = NodePath("../../TextureRect")
 spawns = NodePath("../../Static/PlayerSpawns")
 TeamA = SubResource("StandardMaterial3D_f6sb3")
 TeamB = SubResource("StandardMaterial3D_mn0nn")
@@ -150,6 +172,15 @@ PlayerPrefab = ExtResource("2_u3cyc")
 script = ExtResource("5_yp48q")
 players = NodePath("../../Dynamic/Players")
 ball = NodePath("../../Dynamic/Ball")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AnimatedTexture_fi6k0")
 
 [connection signal="body_entered" from="Static/Arena/Team1 Goal" to="Static/Arena/Team1 Goal" method="OnBodyEntered"]
 [connection signal="body_entered" from="Static/Arena/Team2 Goal" to="Static/Arena/Team1 Goal" method="OnBodyEntered"]
