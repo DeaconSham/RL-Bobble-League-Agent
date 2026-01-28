@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://di7ryefmw5ax2"]
+[gd_scene format=3 uid="uid://di7ryefmw5ax2"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://dggawwvebaq4n" path="res://BallProperties.tres" id="1_3253y"]
 [ext_resource type="ArrayMesh" uid="uid://m28s37u4th62" path="res://Models/Arena.obj" id="1_f6sb3"]
@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c5w5xc037a2gj" path="res://Scenes/player.tscn" id="2_u3cyc"]
 [ext_resource type="ArrayMesh" uid="uid://dxurrjvub31uu" path="res://Models/ICOBall.obj" id="4_fi6k0"]
 [ext_resource type="Texture2D" uid="uid://cprro5aixexti" path="res://Texture/soccer-and-football-seamless-pattern-sport-ball-texture-football-background-black-and-white-pattern-with-soccer-geometric-hexagons-illustration-on-white-background-vector.jpg" id="5_lnogb"]
-[ext_resource type="Script" uid="uid://x57bo1mj16e" path="res://Scenes/Ball.cs" id="5_mn0nn"]
+[ext_resource type="Script" uid="uid://x57bo1mj16e" path="res://Scripts/Ball.cs" id="5_mn0nn"]
 [ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/JsonExporter.cs" id="5_yp48q"]
 [ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://Scripts/GameManager.cs" id="6_6yy46"]
 [ext_resource type="Texture2D" uid="uid://crl5ti1q6m56p" path="res://Texture/istockphoto-1334434982-612x612.jpg" id="11_fi6k0"]
@@ -46,116 +46,117 @@ frame_0/duration = 0.1
 frame_1/texture = SubResource("GradientTexture1D_lnogb")
 frame_1/duration = 1.0
 
-[node name="Scene" type="Node3D"]
+[node name="Scene" type="Node3D" unique_id=14123669]
 
-[node name="Static" type="Node" parent="."]
+[node name="Static" type="Node" parent="." unique_id=2067149681]
 
-[node name="Camera3D" type="Camera3D" parent="Static"]
+[node name="Camera3D" type="Camera3D" parent="Static" unique_id=1658636386]
 transform = Transform3D(-4.37114e-08, -0.884581, 0.466386, 0, 0.466386, 0.884581, -1, 3.86663e-08, -2.03864e-08, 22.6085, 41.903, 0)
 current = true
 fov = 27.5
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Static"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Static" unique_id=205267466]
 transform = Transform3D(0.596297, 0.72121, 0.352543, -0.290151, -0.215843, 0.932322, 0.748494, -0.658231, 0.0805532, -0.252201, 17.6776, -83.2342)
 shadow_enabled = true
 
-[node name="Arena" type="Node3D" parent="Static"]
+[node name="Arena" type="Node3D" parent="Static" unique_id=1563419437]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.01102829, 0, 0.10069847)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Static/Arena"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Static/Arena" unique_id=1281302183]
 mesh = ExtResource("1_f6sb3")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="Static/Arena"]
+[node name="StaticBody3D" type="StaticBody3D" parent="Static/Arena" unique_id=726013263]
 physics_material_override = SubResource("PhysicsMaterial_lq7nq")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/StaticBody3D" unique_id=108636014]
 shape = SubResource("ConcavePolygonShape3D_lq7nq")
 
-[node name="Team1 Goal" type="Area3D" parent="Static/Arena" node_paths=PackedStringArray("gameManager")]
+[node name="Team1 Goal" type="Area3D" parent="Static/Arena" unique_id=586490763 node_paths=PackedStringArray("gameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.0437)
 script = ExtResource("2_mn0nn")
 gameManager = NodePath("../../../Managers/GameManager")
 team = 1
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/Team1 Goal"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/Team1 Goal" unique_id=792756822]
 shape = SubResource("BoxShape3D_lq7nq")
 
-[node name="Team2 Goal" type="Area3D" parent="Static/Arena" node_paths=PackedStringArray("gameManager")]
+[node name="Team2 Goal" type="Area3D" parent="Static/Arena" unique_id=224561328 node_paths=PackedStringArray("gameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.044)
 script = ExtResource("2_mn0nn")
 gameManager = NodePath("../../../Managers/GameManager")
 team = 2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/Team2 Goal"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/Team2 Goal" unique_id=510915902]
 shape = SubResource("BoxShape3D_lq7nq")
 
-[node name="PlayerSpawns" type="Node" parent="Static"]
+[node name="PlayerSpawns" type="Node" parent="Static" unique_id=432860308]
 
-[node name="A1" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="A1" type="Node3D" parent="Static/PlayerSpawns" unique_id=1689459043]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9.954451)
 script = ExtResource("2_f6sb3")
 Team = 1
 
-[node name="A2" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="A2" type="Node3D" parent="Static/PlayerSpawns" unique_id=2025021815]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.4835215)
 script = ExtResource("2_f6sb3")
 Team = 1
 
-[node name="A3" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="A3" type="Node3D" parent="Static/PlayerSpawns" unique_id=578857262]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.604561, 0, 4.520438)
 script = ExtResource("2_f6sb3")
 Team = 1
 
-[node name="A4" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="A4" type="Node3D" parent="Static/PlayerSpawns" unique_id=1456418724]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.605, 0, 4.52)
 script = ExtResource("2_f6sb3")
 Team = 1
 
-[node name="B1" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="B1" type="Node3D" parent="Static/PlayerSpawns" unique_id=1990915572]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -9.954)
 script = ExtResource("2_f6sb3")
 Team = 2
 
-[node name="B2" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="B2" type="Node3D" parent="Static/PlayerSpawns" unique_id=209359872]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -4.484)
 script = ExtResource("2_f6sb3")
 Team = 2
 
-[node name="B3" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="B3" type="Node3D" parent="Static/PlayerSpawns" unique_id=359572350]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.605, 0, -4.52)
 script = ExtResource("2_f6sb3")
 Team = 2
 
-[node name="B4" type="Node3D" parent="Static/PlayerSpawns"]
+[node name="B4" type="Node3D" parent="Static/PlayerSpawns" unique_id=5610151]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.605, 0, -4.52)
 script = ExtResource("2_f6sb3")
 Team = 2
 
-[node name="Dynamic" type="Node" parent="."]
+[node name="Dynamic" type="Node" parent="." unique_id=2080640139]
 
-[node name="Ball" type="RigidBody3D" parent="Dynamic" groups=["ball"]]
+[node name="Ball" type="RigidBody3D" parent="Dynamic" unique_id=1993317229 groups=["ball"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 mass = 0.2
 physics_material_override = ExtResource("1_3253y")
 contact_monitor = true
 max_contacts_reported = 1
 linear_damp = 0.3
+angular_damp = 0.2
 script = ExtResource("5_mn0nn")
-forfuckssake = 1.0
+forfuckssake = 0.2
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Dynamic/Ball"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Dynamic/Ball" unique_id=986913239]
 shape = SubResource("SphereShape3D_drvgu")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Ball"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Dynamic/Ball" unique_id=1642417501]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 mesh = ExtResource("4_fi6k0")
 surface_material_override/0 = SubResource("StandardMaterial3D_20iik")
 
-[node name="Players" type="Node" parent="Dynamic"]
+[node name="Players" type="Node" parent="Dynamic" unique_id=1886883620]
 
-[node name="Managers" type="Node" parent="."]
+[node name="Managers" type="Node" parent="." unique_id=1983326300]
 
-[node name="GameManager" type="Node" parent="Managers" node_paths=PackedStringArray("camera", "players", "ball", "jumps_care", "spawns")]
+[node name="GameManager" type="Node" parent="Managers" unique_id=1968845109 node_paths=PackedStringArray("camera", "players", "ball", "jumps_care", "spawns")]
 script = ExtResource("6_6yy46")
 camera = NodePath("../../Static/Camera3D")
 players = NodePath("../../Dynamic/Players")
@@ -168,12 +169,12 @@ TeamA = SubResource("StandardMaterial3D_f6sb3")
 TeamB = SubResource("StandardMaterial3D_mn0nn")
 PlayerPrefab = ExtResource("2_u3cyc")
 
-[node name="JsonExporter" type="Node" parent="Managers" node_paths=PackedStringArray("players", "ball")]
+[node name="JsonExporter" type="Node" parent="Managers" unique_id=759550437 node_paths=PackedStringArray("players", "ball")]
 script = ExtResource("5_yp48q")
 players = NodePath("../../Dynamic/Players")
 ball = NodePath("../../Dynamic/Ball")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1670439659]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0

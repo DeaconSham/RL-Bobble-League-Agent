@@ -20,7 +20,7 @@ public partial class GameManager : Node
     public override void _Input(InputEvent @event)
     {
         if (@event is InputEventMouseButton mouseButton) {
-            bool stationaryBall = ball.LinearVelocity.Length() < 0.1;
+            bool stationaryBall = ball.LinearVelocity.Length() < 0.01;
             if (mouseButton.ButtonIndex == MouseButton.Left && mouseButton.Pressed) {
                 if (stationaryBall) {
                     launchPlayer = playerClicked(currentTeam);
@@ -70,12 +70,7 @@ public partial class GameManager : Node
         // less poopy?
         List<Player> desiredPlayerList = new List<Player>();
         foreach (Player player in players.GetChildren()) {
-            if (player.team == 1) {
-                desiredPlayerList.Add(player);
-            }
-        }
-        foreach (Player player in players.GetChildren()) {
-            if (player.team == 2) {
+            if (player.team == currentTeam) {
                 desiredPlayerList.Add(player);
             }
         }
