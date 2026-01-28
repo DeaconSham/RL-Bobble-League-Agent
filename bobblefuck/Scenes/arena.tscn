@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://dk456yb8t7vvk"]
+[gd_scene load_steps=6 format=3 uid="uid://dk456yb8t7vvk"]
 
 [ext_resource type="ArrayMesh" uid="uid://m28s37u4th62" path="res://Models/Arena.obj" id="1_ubfh8"]
+[ext_resource type="Script" uid="uid://bbeyt1aj45k8m" path="res://Scripts/TeamGoal.cs" id="2_ra5jo"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lq7nq"]
 bounce = 0.5
@@ -24,12 +25,17 @@ shape = SubResource("ConcavePolygonShape3D_lq7nq")
 
 [node name="Team1 Goal" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.0437)
+script = ExtResource("2_ra5jo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Team1 Goal"]
 shape = SubResource("BoxShape3D_lq7nq")
 
 [node name="Team2 Goal" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.044)
+script = ExtResource("2_ra5jo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Team2 Goal"]
 shape = SubResource("BoxShape3D_lq7nq")
+
+[connection signal="body_entered" from="Team1 Goal" to="Team1 Goal" method="OnBodyEntered"]
+[connection signal="body_entered" from="Team2 Goal" to="Team1 Goal" method="OnBodyEntered"]

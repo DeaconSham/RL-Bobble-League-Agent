@@ -7,7 +7,8 @@ public partial class JsonExporter : Node
     [Export] Node players;
     [Export] RigidBody3D ball;
 
-    public void DoTheThing() {
+    public void DoTheThing(int scoreA, int scoreB) {
+        // the scores can be included maybe idk will have to fist myself before i know
         Export(TeamPositions(1), TeamPositions(2), new Vector2(ball.Position.X, ball.Position.Z));
     }
     

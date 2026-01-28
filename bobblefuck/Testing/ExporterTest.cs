@@ -21,7 +21,7 @@ public partial class ExporterTest : Node3D {
         if (Input.IsKeyPressed(Key.Enter)) {
             RandomisePosition(new RandomNumberGenerator());
             Print();
-            Exporter.DoTheThing();
+            Exporter.DoTheThing(1, 2);
         }
     }
 

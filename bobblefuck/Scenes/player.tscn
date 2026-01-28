@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c5w5xc037a2gj"]
+[gd_scene load_steps=9 format=3 uid="uid://c5w5xc037a2gj"]
 
 [ext_resource type="Script" uid="uid://ejvy1c37bkr7" path="res://Scripts/Player.cs" id="1_onrkg"]
 [ext_resource type="ArrayMesh" uid="uid://bmiqe0y8cj0om" path="res://Models/Glasses.obj" id="2_i3pqv"]
@@ -7,11 +7,7 @@
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_u3cyc"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_drvgu"]
-albedo_color = Color(0.995546, 0.0564596, 0.141266, 1)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_ulcgi"]
-material = SubResource("StandardMaterial3D_drvgu")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_vgqql"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_nxogm"]
 
@@ -38,7 +34,7 @@ ArrowBase = NodePath("Arrow/Base")
 ArrowTip = NodePath("Arrow/Head")
 
 [node name="Body" type="MeshInstance3D" parent="."]
-mesh = SubResource("CapsuleMesh_ulcgi")
+mesh = SubResource("CapsuleMesh_vgqql")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_nxogm")
