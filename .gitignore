@@ -415,4 +415,4 @@ $RECYCLE.BIN/
 
 # test area
 temp_data/*
-!temp_data/
+!temp_data/.gitkeep
