@@ -19,9 +19,9 @@ def neural_network(sizes, activation = nn.Tanh):
             layers.append(activation())
     return nn.Sequential(*layers)
 
-class actor_critic_neural_network(nn.Module):
+class Actor_critic_neural_network(nn.Module):
     """
-        Docstring for actor_critic_neural_network
+        Docstring for Actor_critic_neural_network
 
         Class contains two different neural networks:
         Actor (pi_net): Decides what to do (returns action means)

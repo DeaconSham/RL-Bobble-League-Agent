@@ -1,8 +1,9 @@
+import os
 import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import Adam
-from neural_network import actor_critic_neural_network
+from neural_network import Actor_critic_neural_network
 
 def get_device(device=None):
     """
@@ -21,14 +22,14 @@ def get_device(device=None):
     if torch.cuda.is_available():
         return torch.device('cuda')
     elif torch.backends.mps.is_available():
-        return torch.device('mps') # im a mac user so apple silicon option here
+        return torch.device('mps') # for mac users
     else:
         return torch.device('cpu')
 
-class ppo_buffer:
+class PPO_buffer:
     def __init__(self, obs_dim, act_dim, size, gamma=0.99, lam=0.97):
         """
-        Docstring for ppo_buffer class:
+        Docstring for PPO_buffer class:
 
         Buffer for storing trajectories experienced by an agent interacting 
         with the environment, and using generalized advantage estimation (GAE)
@@ -190,7 +191,7 @@ def update(ac, buf, pi_optimizer, vf_optimizer, train_pi_iters=80,
     
     Args:
         ac: actor-critic model
-        buf: ppo_buffer with trajectory data
+        buf: PPO_buffer with trajectory data
         pi_optimizer: optimizer for policy network
         vf_optimizer: optimizer for value network
         train_pi_iters: number of gradient steps for policy
@@ -239,7 +240,7 @@ def update(ac, buf, pi_optimizer, vf_optimizer, train_pi_iters=80,
         ClipFrac=cf
     )
 
-def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict(),
+def ppo_train(env_fn, actor_critic=Actor_critic_neural_network, ac_kwargs=dict(),
               steps_per_epoch=4000, epochs=50, gamma=0.99, clip_ratio=0.2,
               pi_lr=3e-4, vf_lr=1e-3, train_pi_iters=80, train_v_iters=80,
               lam=0.97, max_ep_len=1000, target_kl=0.01, save_freq=10, device=None):
@@ -273,11 +274,8 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
         device: Device to use for training ('cuda', 'cpu', 'mps', or None for auto-detect).
     """
     
-    # Setup device
     device = get_device(device)
     print(f'Using device: {device}')
-    
-    # TODO: To create environment (idk use gymnasium or direct shared memory access or some godot-python protocol)
     env = env_fn()
     obs_dim = env.observation_space.shape[0]
     act_dim = env.action_space.shape[0]
@@ -288,7 +286,7 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
     
     # Set up experience buffer
     local_steps_per_epoch = steps_per_epoch
-    buf = ppo_buffer(obs_dim, act_dim, local_steps_per_epoch, gamma, lam)
+    buf = PPO_buffer(obs_dim, act_dim, local_steps_per_epoch, gamma, lam)
     
     # Set up optimizers for policy and value function
     # NOTE: Adam is for "Adaptive Moment Estimation," extension of SGD method
@@ -328,7 +326,7 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
                     _, v, _ = ac.step(o)
                 else:
                     v = 0
-                buf.finish_path(v)
+                buf.finish_path(v.item())
                 if terminal:
                     # Only save episode return if trajectory finished
                     print(f'Episode {epoch}: return={ep_ret:.2f}, length={ep_len}')
@@ -340,15 +338,21 @@ def ppo_train(env_fn, actor_critic=actor_critic_neural_network, ac_kwargs=dict()
 
         # Log info about epoch
         print(f'\nEpoch: {epoch}')
-        print(f"  LossPi: {update_info['LossPi']:.4f}")
-        print(f"  LossV: {update_info['LossV']:.4f}")
-        print(f"  KL: {update_info['KL']:.4f}")
-        print(f"  Entropy: {update_info['Entropy']:.4f}")
-        print(f"  ClipFrac: {update_info['ClipFrac']:.4f}\n")
+        print(f"LossPi: {update_info['LossPi']:.4f}")
+        print(f"LossV: {update_info['LossV']:.4f}")
+        print(f"KL: {update_info['KL']:.4f}")
+        print(f"Entropy: {update_info['Entropy']:.4f}")
+        print(f"ClipFrac: {update_info['ClipFrac']:.4f}\n")
         
         # Save model
         if (epoch % save_freq == 0) or (epoch == epochs - 1):
+            os.makedirs('checkpoints', exist_ok=True)
             torch.save(ac.state_dict(), f'checkpoints/ppo_epoch_{epoch}.pt')
             print(f'Model saved at epoch {epoch}')
 
     return ac
+
+
+if __name__ == '__main__':
+    from bobble_fuck_env import bobble_fuck_env_helper
+    ppo_train(env_fn=bobble_fuck_env_helper)

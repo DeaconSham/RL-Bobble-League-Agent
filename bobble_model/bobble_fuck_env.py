@@ -1,12 +1,14 @@
 import numpy as np
 import gymnasium as gym
+from shared_memory_link import Shared_memory_link
 
 
-class bobble_fuck_env(gym.Env):
+class Bobble_fuck_env(gym.Env):
     """
-    Docstring for bobble_fuck_env:
+    Docstring for Bobble_fuck_env:
     
     Gymnasium environment for Bobble League reinforcement learning.
+    Communicates with Godot via shared memory bridge.
     
     Observation Space:
         - Ball position (x, y): 2 values
@@ -26,6 +28,7 @@ class bobble_fuck_env(gym.Env):
         Docstring for __init__:
         
         Initialize the Bobble League environment.
+        Creates shared memory bridge to communicate with Godot.
         """
         super().__init__()
         
@@ -50,18 +53,24 @@ class bobble_fuck_env(gym.Env):
         self.ep_len = 0
         self.max_ep_len = 1000
         
+        # Shared memory bridge (attach to Godot-created shared memory)
+        self.bridge = Shared_memory_link(create=False)
+        
     def reset(self):
         """
         Docstring for reset:
         
         Reset the environment to initial state.
-        Uses the Gym API for compatibility with training loop.
+        Signals Godot to reset the game and waits for initial observation.
         """
         self.ep_len = 0
         
-        # TODO: Get initial state from Godot
-        # For now, return a PLACEHOLDER observation
-        obs = np.zeros(14, dtype=np.float32)
+        # Request Godot to reset the game
+        self.bridge.request_reset()
+        self.bridge.wait_for_reset()
+        
+        # Read initial observation from Godot
+        obs = self.bridge.read_observation()
         
         return obs
     
@@ -70,7 +79,7 @@ class bobble_fuck_env(gym.Env):
         Docstring for step:
         
         Execute one step in the environment.
-        Uses the old Gym API for compatibility with training loop.
+        Sends action to Godot via shared memory and waits for the result.
         
         Args:
             action: Action to take (6-dim numpy array)
@@ -81,21 +90,19 @@ class bobble_fuck_env(gym.Env):
             done: Whether episode ended (bool)
             info: Additional information (dict)
         """
-        # TODO: Send action to Godot and get next state
-        # For now, return placeholder values
+        # Write action to shared memory
+        self.bridge.write_action(action)
+        
+        # Signal Godot to step and wait for completion
+        self.bridge.request_step()
+        self.bridge.wait_for_step()
         
         self.ep_len += 1
         
-        # PLACEHOLDER observation
-        obs = np.zeros(14, dtype=np.float32)
-        
-        # PLACEHOLDER reward
-        reward = 0.0
-        
-        # Episode ends PLACEHOLDER
-        done = (self.ep_len >= self.max_ep_len)
-        
-        # Additional info PLACEHOLDER
+        # Read results from Godot
+        obs = self.bridge.read_observation()
+        reward = self.bridge.read_reward()
+        done = self.bridge.read_done() or (self.ep_len >= self.max_ep_len)
         info = {}
         
         return obs, reward, done, info
@@ -104,7 +111,7 @@ class bobble_fuck_env(gym.Env):
         """
         Docstring for render:
         
-        Render the environment (should be handled by Godot).
+        Render the environment (handled by Godot).
         
         Args:
             mode: Rendering mode
@@ -117,8 +124,9 @@ class bobble_fuck_env(gym.Env):
         Docstring for close:
         
         Clean up environment resources.
+        Closes the shared memory bridge.
         """
-        pass
+        self.bridge.close()
 
 
 # Helper function to create environment (used by training loop)
@@ -132,4 +140,4 @@ def bobble_fuck_env_helper():
     Returns:
         env: bobble_fuck_env instance
     """
-    return bobble_fuck_env()
+    return Bobble_fuck_env()

@@ -1,10 +1,5 @@
-# Python 3.12.4 was used for development
+# Python 3.12.4
 
 numpy==2.4.1
 torch==2.10.0
 gymnasium==1.2.3
-
-# For CUDA support (GPU acceleration):
-# Install PyTorch from https://pytorch.org/get-started/locally/ based on CUDA version\
-
-# Run "pip install -r requirements.txt" in the correct dependency folder to install Python library package
