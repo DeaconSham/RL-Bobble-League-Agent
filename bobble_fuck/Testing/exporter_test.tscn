@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://dyqnudokp5kw7"]
+[gd_scene format=3 uid="uid://dyqnudokp5kw7"]
 
 [ext_resource type="Script" uid="uid://d2oa7ti65g3dv" path="res://Testing/ExporterTest.cs" id="1_4ou1a"]
 [ext_resource type="PackedScene" uid="uid://c5w5xc037a2gj" path="res://Scenes/player.tscn" id="1_a782s"]
 [ext_resource type="PhysicsMaterial" uid="uid://dggawwvebaq4n" path="res://BallProperties.tres" id="2_ts3nr"]
-[ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/JsonExporter.cs" id="3_jo5go"]
+[ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/DataManager.cs" id="3_jo5go"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_4ou1a"]
 

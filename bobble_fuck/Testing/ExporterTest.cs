@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 public partial class ExporterTest : Node3D {
-    [Export] JsonExporter Exporter;
+    [Export] DataManager Exporter;
     
     [Export] Node players;
     [Export] RigidBody3D ball;
@@ -20,7 +20,7 @@ public partial class ExporterTest : Node3D {
     public override void _Process(double delta) {
         if (Input.IsKeyPressed(Key.Enter)) {
             RandomisePosition(new RandomNumberGenerator());
-            Print();
+            //Print();
             Exporter.DoTheThing(1, 2);
         }
     }
