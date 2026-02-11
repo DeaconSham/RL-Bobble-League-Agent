@@ -8,7 +8,7 @@
 [ext_resource type="ArrayMesh" uid="uid://dxurrjvub31uu" path="res://Models/ICOBall.obj" id="4_fi6k0"]
 [ext_resource type="Texture2D" uid="uid://cprro5aixexti" path="res://Texture/soccer-and-football-seamless-pattern-sport-ball-texture-football-background-black-and-white-pattern-with-soccer-geometric-hexagons-illustration-on-white-background-vector.jpg" id="5_lnogb"]
 [ext_resource type="Script" uid="uid://x57bo1mj16e" path="res://Scripts/Ball.cs" id="5_mn0nn"]
-[ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/JsonExporter.cs" id="5_yp48q"]
+[ext_resource type="Script" uid="uid://wf57d65g6grx" path="res://Scripts/DataManager.cs" id="5_yp48q"]
 [ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://Scripts/GameManager.cs" id="6_6yy46"]
 [ext_resource type="Texture2D" uid="uid://crl5ti1q6m56p" path="res://Texture/istockphoto-1334434982-612x612.jpg" id="11_fi6k0"]
 
@@ -163,18 +163,20 @@ players = NodePath("../../Dynamic/Players")
 ball = NodePath("../../Dynamic/Ball")
 selectDistance = 5.0
 dragDistance = 2.0
-jumps_care = NodePath("../../TextureRect")
+jumps_care = NodePath("../../Ui/TextureRect")
 spawns = NodePath("../../Static/PlayerSpawns")
 TeamA = SubResource("StandardMaterial3D_f6sb3")
 TeamB = SubResource("StandardMaterial3D_mn0nn")
 PlayerPrefab = ExtResource("2_u3cyc")
 
-[node name="JsonExporter" type="Node" parent="Managers" unique_id=759550437 node_paths=PackedStringArray("players", "ball")]
+[node name="DataManager" type="Node" parent="Managers" unique_id=759550437 node_paths=PackedStringArray("players", "ball")]
 script = ExtResource("5_yp48q")
 players = NodePath("../../Dynamic/Players")
 ball = NodePath("../../Dynamic/Ball")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1670439659]
+[node name="Ui" type="Node" parent="." unique_id=270725254]
+
+[node name="TextureRect" type="TextureRect" parent="Ui" unique_id=1670439659]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -182,6 +184,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AnimatedTexture_fi6k0")
+
+[node name="Label" type="Label" parent="Ui" unique_id=1551036701]
+offset_left = 2.0
+offset_right = 206.0
+offset_bottom = 49.0
+text = "M1 and drag for launching
+M2 to progress turn"
 
 [connection signal="body_entered" from="Static/Arena/Team1 Goal" to="Static/Arena/Team1 Goal" method="OnBodyEntered"]
 [connection signal="body_entered" from="Static/Arena/Team2 Goal" to="Static/Arena/Team1 Goal" method="OnBodyEntered"]
