@@ -20,7 +20,7 @@ public partial class ExporterTest : Node3D {
     public override void _Process(double delta) {
         if (Input.IsKeyPressed(Key.Enter)) {
             RandomisePosition(new RandomNumberGenerator());
-            //Print();
+            Print();
             Exporter.DoTheThing(1, 2);
         }
     }
@@ -33,14 +33,6 @@ public partial class ExporterTest : Node3D {
     }
 
     void Print() {
-        GD.Print("Team 1:");
-        for (int i = 0; i < 4; i++) {
-            GD.Print(playerList[i].Position);
-        }
-        GD.Print("Team 2:");
-        for (int i = 4; i < 8; i++) {
-            GD.Print(playerList[i].Position);
-        }
         GD.Print("ball: " + ball.Position);
     }
 }
