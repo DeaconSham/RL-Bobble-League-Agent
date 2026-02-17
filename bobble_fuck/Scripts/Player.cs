@@ -14,7 +14,7 @@ public partial class Player : RigidBody3D
     [ExportGroup("Visuals")] 
     [Export] float baseWidth;
     [Export] float baseWidthCoef;
-    [Export] float tipSize; // 🥵
+    [Export] float tipSize;
 
 
     public Vector3 input;
