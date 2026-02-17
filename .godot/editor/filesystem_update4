@@ -1,0 +1,7 @@
+res://GameScripts/DataManager.cs
+res://Testing/ExporterTest.cs
+res://GameScripts/GameManager.cs
+res://GameScripts/Ball.cs
+res://GameScripts/Player.cs
+res://GameScripts/TeamGoal.cs
+res://GameScripts/PlayerSpawn.cs
