@@ -3,8 +3,7 @@ using System;
 using System.IO.MemoryMappedFiles;
 
 // bridge between godot and python for RL training
-public partial class SharedMemory : Node
-{
+public class SharedMemory {
     private const int OBS_OFFSET = 0;
     private const int OBS_SIZE = 56;
     private const int ACT_OFFSET = 56;
@@ -21,14 +20,13 @@ public partial class SharedMemory : Node
     private MemoryMappedFile _mmf;
     private MemoryMappedViewAccessor _accessor;
     
-    [Export] public string SharedMemoryName = "BobbleFuckState";
-    [Export] public bool CreateSharedMemory = true;
+    public string SharedMemoryName = "BobbleFuckState";
+    public bool CreateSharedMemory = true;
 
-    public override void _Ready()
-    {
+    public SharedMemory() {
         InitializeSharedMemory();
     }
-
+    
     // sets up the shared memory segment
     private void InitializeSharedMemory()
     {
@@ -159,8 +157,7 @@ public partial class SharedMemory : Node
         ClearResetRequest();
     }
 
-    public override void _ExitTree()
-    {
+    ~SharedMemory () {
         CleanUp();
     }
 
