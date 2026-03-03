@@ -23,19 +23,19 @@ physics_material_override = SubResource("PhysicsMaterial_lq7nq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
 shape = SubResource("ConcavePolygonShape3D_lq7nq")
 
-[node name="Team1 Goal" type="Area3D" parent="."]
+[node name="TeamA Goal" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.0437)
 script = ExtResource("2_ra5jo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Team1 Goal"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TeamA Goal"]
 shape = SubResource("BoxShape3D_lq7nq")
 
-[node name="Team2 Goal" type="Area3D" parent="."]
+[node name="TeamB Goal" type="Area3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.044)
 script = ExtResource("2_ra5jo")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Team2 Goal"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="TeamB Goal"]
 shape = SubResource("BoxShape3D_lq7nq")
 
-[connection signal="body_entered" from="Team1 Goal" to="Team1 Goal" method="OnBodyEntered"]
-[connection signal="body_entered" from="Team2 Goal" to="Team1 Goal" method="OnBodyEntered"]
+[connection signal="body_entered" from="TeamA Goal" to="TeamA Goal" method="OnBodyEntered"]
+[connection signal="body_entered" from="TeamB Goal" to="TeamA Goal" method="OnBodyEntered"]

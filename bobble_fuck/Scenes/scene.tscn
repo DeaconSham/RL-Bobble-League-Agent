@@ -70,22 +70,22 @@ physics_material_override = SubResource("PhysicsMaterial_lq7nq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/StaticBody3D" unique_id=108636014]
 shape = SubResource("ConcavePolygonShape3D_lq7nq")
 
-[node name="Team1 Goal" type="Area3D" parent="Static/Arena" unique_id=586490763 node_paths=PackedStringArray("gameManager")]
+[node name="TeamA Goal" type="Area3D" parent="Static/Arena" unique_id=586490763 node_paths=PackedStringArray("gameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.0437)
 script = ExtResource("2_mn0nn")
 team = 1
 gameManager = NodePath("../../../Managers/GameManager")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/Team1 Goal" unique_id=792756822]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/TeamA Goal" unique_id=792756822]
 shape = SubResource("BoxShape3D_lq7nq")
 
-[node name="Team2 Goal" type="Area3D" parent="Static/Arena" unique_id=224561328 node_paths=PackedStringArray("gameManager")]
+[node name="TeamB Goal" type="Area3D" parent="Static/Arena" unique_id=224561328 node_paths=PackedStringArray("gameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.044)
 script = ExtResource("2_mn0nn")
 team = 2
 gameManager = NodePath("../../../Managers/GameManager")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/Team2 Goal" unique_id=510915902]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/TeamB Goal" unique_id=510915902]
 shape = SubResource("BoxShape3D_lq7nq")
 
 [node name="PlayerSpawns" type="Node" parent="Static" unique_id=432860308]
@@ -178,5 +178,5 @@ offset_bottom = 49.0
 text = "M1 and drag for launching
 M2 to progress turn"
 
-[connection signal="body_entered" from="Static/Arena/Team1 Goal" to="Static/Arena/Team1 Goal" method="OnBodyEntered"]
-[connection signal="body_entered" from="Static/Arena/Team2 Goal" to="Static/Arena/Team1 Goal" method="OnBodyEntered"]
+[connection signal="body_entered" from="Static/Arena/TeamA Goal" to="Static/Arena/TeamA Goal" method="OnBodyEntered"]
+[connection signal="body_entered" from="Static/Arena/TeamB Goal" to="Static/Arena/TeamA Goal" method="OnBodyEntered"]

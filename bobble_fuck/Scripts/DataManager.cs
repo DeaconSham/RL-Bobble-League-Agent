@@ -100,10 +100,10 @@ public partial class DataManager : Node {
         return teamArray;
     }
 
-    unsafe void Export(float[] team1Positions, float[] team2Positions, Vector2 ballPosition) {
-        float[] teamPositions = new float[team1Positions.Length + team2Positions.Length];
-        Array.Copy(team1Positions, 0, teamPositions, 0, team1Positions.Length);
-        Array.Copy(team2Positions, 0, teamPositions, team1Positions.Length, team2Positions.Length);
+    unsafe void Export(float[] teamAPositions, float[] teamBPositions, Vector2 ballPosition) {
+        float[] teamPositions = new float[teamAPositions.Length + teamBPositions.Length];
+        Array.Copy(teamAPositions, 0, teamPositions, 0, teamAPositions.Length);
+        Array.Copy(teamBPositions, 0, teamPositions, teamAPositions.Length, teamBPositions.Length);
         
         float[] ballPositionArray = {ballPosition.X, ballPosition.Y};
         float[] positionArray = new float[ballPositionArray.Length + teamPositions.Length];
