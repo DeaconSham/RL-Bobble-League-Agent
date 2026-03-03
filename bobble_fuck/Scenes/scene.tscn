@@ -11,6 +11,12 @@
 [ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://Scripts/GameManager.cs" id="6_6yy46"]
 [ext_resource type="Texture2D" uid="uid://crl5ti1q6m56p" path="res://Textures/istockphoto-1334434982-612x612.jpg" id="11_fi6k0"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f6sb3"]
+albedo_color = Color(7.123351e-06, 0.7028196, 0.9173508, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mn0nn"]
+albedo_color = Color(1, 0.089999974, 0.089999974, 1)
+
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_lq7nq"]
 bounce = 0.5
 
@@ -24,12 +30,6 @@ size = Vector3(20, 5, 5.085)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_20iik"]
 albedo_texture = ExtResource("5_lnogb")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f6sb3"]
-albedo_color = Color(7.123351e-06, 0.7028196, 0.9173508, 1)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mn0nn"]
-albedo_color = Color(1, 0.089999974, 0.089999974, 1)
 
 [sub_resource type="Gradient" id="Gradient_fi6k0"]
 colors = PackedColorArray(0, 0, 0, 0, 0.012617188, 0.012617188, 0.012617188, 0)
@@ -46,6 +46,24 @@ frame_1/texture = SubResource("GradientTexture1D_lnogb")
 frame_1/duration = 1.0
 
 [node name="Scene" type="Node3D" unique_id=14123669]
+
+[node name="Managers" type="Node" parent="." unique_id=1983326300]
+
+[node name="GameManager" type="Node" parent="Managers" unique_id=1968845109 node_paths=PackedStringArray("camera", "players", "ball", "spawns", "jumps_care")]
+script = ExtResource("6_6yy46")
+camera = NodePath("../../Static/Camera3D")
+players = NodePath("../../Dynamic/Players")
+ball = NodePath("../../Dynamic/Ball")
+selectDistance = 5.0
+dragDistance = 2.0
+spawns = NodePath("../../Static/PlayerSpawns")
+TeamA = SubResource("StandardMaterial3D_f6sb3")
+TeamB = SubResource("StandardMaterial3D_mn0nn")
+PlayerPrefab = ExtResource("2_u3cyc")
+CurrentPlayMode = 1
+jumps_care = NodePath("../../Ui/TextureRect")
+
+[node name="DataManager" type="Node" parent="Managers" unique_id=759550437]
 
 [node name="Static" type="Node" parent="." unique_id=2067149681]
 
@@ -73,8 +91,8 @@ shape = SubResource("ConcavePolygonShape3D_lq7nq")
 [node name="TeamA Goal" type="Area3D" parent="Static/Arena" unique_id=586490763 node_paths=PackedStringArray("gameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.0437)
 script = ExtResource("2_mn0nn")
-team = 1
 gameManager = NodePath("../../../Managers/GameManager")
+team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/TeamA Goal" unique_id=792756822]
 shape = SubResource("BoxShape3D_lq7nq")
@@ -82,8 +100,8 @@ shape = SubResource("BoxShape3D_lq7nq")
 [node name="TeamB Goal" type="Area3D" parent="Static/Arena" unique_id=224561328 node_paths=PackedStringArray("gameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.044)
 script = ExtResource("2_mn0nn")
-team = 2
 gameManager = NodePath("../../../Managers/GameManager")
+team = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/TeamB Goal" unique_id=510915902]
 shape = SubResource("BoxShape3D_lq7nq")
@@ -142,23 +160,6 @@ mesh = ExtResource("4_fi6k0")
 surface_material_override/0 = SubResource("StandardMaterial3D_20iik")
 
 [node name="Players" type="Node" parent="Dynamic" unique_id=1886883620]
-
-[node name="Managers" type="Node" parent="." unique_id=1983326300]
-
-[node name="GameManager" type="Node" parent="Managers" unique_id=1968845109 node_paths=PackedStringArray("camera", "players", "ball", "jumps_care", "spawns")]
-script = ExtResource("6_6yy46")
-selectDistance = 5.0
-dragDistance = 2.0
-TeamA = SubResource("StandardMaterial3D_f6sb3")
-TeamB = SubResource("StandardMaterial3D_mn0nn")
-PlayerPrefab = ExtResource("2_u3cyc")
-camera = NodePath("../../Static/Camera3D")
-players = NodePath("../../Dynamic/Players")
-ball = NodePath("../../Dynamic/Ball")
-jumps_care = NodePath("../../Ui/TextureRect")
-spawns = NodePath("../../Static/PlayerSpawns")
-
-[node name="DataManager" type="Node" parent="Managers" unique_id=759550437]
 
 [node name="Ui" type="Node" parent="." unique_id=270725254]
 

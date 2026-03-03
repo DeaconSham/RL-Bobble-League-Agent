@@ -97,7 +97,7 @@ class Shared_memory_link:
         """
         Docstring for request_step:
 
-        Tell Godot we want it to do a physics step.
+        Tell Godot we want it to do a physics step.   deacon what is a physics step
         """
         self.shm.buf[self.STEP_REQ_OFFSET] = 1
 
