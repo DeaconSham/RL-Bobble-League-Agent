@@ -3,8 +3,8 @@ using System;
 
 public partial class TeamGoal : Area3D
 {
-    [Export] GameManager gameManager; 
-    [Export] int team;
+    [Export] GameManager GameManager; 
+    [Export] int Team;
     
     public override void _Ready() {
         BodyEntered += OnBodyEntered;
@@ -12,7 +12,7 @@ public partial class TeamGoal : Area3D
 
     private void OnBodyEntered(Node3D body) {
         if (body.IsInGroup("ball")) {
-            gameManager.SCOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE(team);
+            GameManager.OnGoalScored(Team);
         }
     }
 }

@@ -4,15 +4,13 @@ import time
 from multiprocessing import shared_memory
 
 
-class Shared_memory_link:
+class SharedMemoryLink:
     """
-    Docstring for Shared_memory_link:
-
     Shared memory bridge between Godot and Python.
     
     Memory Layout (87 bytes total):
-    - Bytes 0-55: Observation (14 floats) - ball pos + 3 friendly + 3 enemy positions
-    - Bytes 56-79: Action (6 floats) - power/angle pairs for 3 friendly players
+    - Bytes 0-55: Observation (14 floats) - ball pos + 3 Team A + 3 Team B (AI by default) positions
+    - Bytes 56-79: Action (6 floats) - power/angle pairs for 3 Team B players
     - Bytes 80-83: Reward (1 float)
     - Byte 84: Done flag (0=running, 1=episode over)
     - Byte 85: Step request flag (Python writes, Godot clears)
@@ -34,10 +32,8 @@ class Shared_memory_link:
     OBS_DIM = 14
     ACT_DIM = 6
 
-    def __init__(self, name="BobbleFuckState", create=False, poll_interval=0.001):
+    def __init__(self, name="BobbleGameState", create=False, poll_interval=0.001):
         """
-        Docstring for __init__:
-
         Args:
             name: Name of the shared memory segment (must match Godot side)
             create: If True, create the shared memory. If False, attach to existing.
@@ -48,26 +44,21 @@ class Shared_memory_link:
 
         if create:
             self.shm = shared_memory.SharedMemory(name=self.name, create=True, size=self.TOTAL_SIZE)
-            self.shm.buf[:self.TOTAL_SIZE] = bytearray(self.TOTAL_SIZE)  # zero it out
+            self.shm.buf[:self.TOTAL_SIZE] = bytearray(self.TOTAL_SIZE)
         else:
-            # TODO: attach to the existing memory created by Godot
             self.shm = shared_memory.SharedMemory(name=self.name, create=False)
 
     def write_action(self, action):
         """
-        Docstring for write_action:
-
         Args:
-            action: numpy array of 6 float32 values [f1_power, f1_angle, f2_power, f2_angle, f3_power, f3_angle]
+            action: numpy array of float32 values (6-dim for single-agent, 12-dim for self-play)
         """
-        # convert action to bytes and write to shared mem
         action_bytes = np.array(action, dtype=np.float32).tobytes()
-        self.shm.buf[self.ACT_OFFSET:self.ACT_OFFSET + self.ACT_SIZE] = action_bytes
+        byte_len = len(action_bytes)
+        self.shm.buf[self.ACT_OFFSET:self.ACT_OFFSET + byte_len] = action_bytes
 
     def read_observation(self):
         """
-        Docstring for read_observation:
-
         Returns:
             numpy array of 14 float32 values
         """
@@ -76,8 +67,6 @@ class Shared_memory_link:
 
     def read_reward(self):
         """
-        Docstring for read_reward:
-
         Returns:
             float: reward value
         """
@@ -86,25 +75,17 @@ class Shared_memory_link:
 
     def read_done(self):
         """
-        Docstring for read_done:
-
         Returns:
             bool: True if episode is over
         """
         return self.shm.buf[self.DONE_OFFSET] == 1
 
     def request_step(self):
-        """
-        Docstring for request_step:
-
-        Tell Godot we want it to do a physics step.   deacon what is a physics step
-        """
+        """Tell Godot we want it to do a physics step."""
         self.shm.buf[self.STEP_REQ_OFFSET] = 1
 
     def wait_for_step(self, timeout=10.0):
         """
-        Docstring for wait_for_step:
-
         Wait until Godot clears the step flag.
 
         Args:
@@ -117,17 +98,11 @@ class Shared_memory_link:
             time.sleep(self.poll_interval)
 
     def request_reset(self):
-        """
-        Docstring for request_reset:
-
-        Signal Godot to reset the environment.
-        """
+        """Signal Godot to reset the environment."""
         self.shm.buf[self.RESET_REQ_OFFSET] = 1
 
     def wait_for_reset(self, timeout=10.0):
         """
-        Docstring for wait_for_reset:
-
         Wait for Godot to complete the reset.
 
         Args:
@@ -140,11 +115,7 @@ class Shared_memory_link:
             time.sleep(self.poll_interval)
 
     def close(self):
-        """
-        Docstring for close:
-
-        Clean up shared memory resources.
-        """
+        """Clean up shared memory resources."""
         self.shm.close()
         try:
             self.shm.unlink()

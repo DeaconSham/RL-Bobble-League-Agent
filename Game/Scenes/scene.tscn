@@ -49,19 +49,19 @@ frame_1/duration = 1.0
 
 [node name="Managers" type="Node" parent="." unique_id=1983326300]
 
-[node name="GameManager" type="Node" parent="Managers" unique_id=1968845109 node_paths=PackedStringArray("camera", "players", "ball", "spawns", "jumps_care")]
+[node name="GameManager" type="Node" parent="Managers" unique_id=1968845109 node_paths=PackedStringArray("Camera", "Players", "Ball", "Spawns", "GoalOverlay")]
 script = ExtResource("6_6yy46")
-camera = NodePath("../../Static/Camera3D")
-players = NodePath("../../Dynamic/Players")
-ball = NodePath("../../Dynamic/Ball")
-selectDistance = 5.0
-dragDistance = 2.0
-spawns = NodePath("../../Static/PlayerSpawns")
-TeamA = SubResource("StandardMaterial3D_f6sb3")
-TeamB = SubResource("StandardMaterial3D_mn0nn")
+Camera = NodePath("../../Static/Camera3D")
+Players = NodePath("../../Dynamic/Players")
+Ball = NodePath("../../Dynamic/Ball")
+SelectDistance = 5.0
+DragDistance = 2.0
+Spawns = NodePath("../../Static/PlayerSpawns")
+TeamAMaterial = SubResource("StandardMaterial3D_f6sb3")
+TeamBMaterial = SubResource("StandardMaterial3D_mn0nn")
 PlayerPrefab = ExtResource("2_u3cyc")
 CurrentPlayMode = 1
-jumps_care = NodePath("../../Ui/TextureRect")
+GoalOverlay = NodePath("../../Ui/TextureRect")
 
 [node name="DataManager" type="Node" parent="Managers" unique_id=759550437]
 
@@ -88,20 +88,20 @@ physics_material_override = SubResource("PhysicsMaterial_lq7nq")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/StaticBody3D" unique_id=108636014]
 shape = SubResource("ConcavePolygonShape3D_lq7nq")
 
-[node name="TeamA Goal" type="Area3D" parent="Static/Arena" unique_id=586490763 node_paths=PackedStringArray("gameManager")]
+[node name="TeamA Goal" type="Area3D" parent="Static/Arena" unique_id=586490763 node_paths=PackedStringArray("GameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -33.0437)
 script = ExtResource("2_mn0nn")
-gameManager = NodePath("../../../Managers/GameManager")
-team = 1
+GameManager = NodePath("../../../Managers/GameManager")
+Team = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/TeamA Goal" unique_id=792756822]
 shape = SubResource("BoxShape3D_lq7nq")
 
-[node name="TeamB Goal" type="Area3D" parent="Static/Arena" unique_id=224561328 node_paths=PackedStringArray("gameManager")]
+[node name="TeamB Goal" type="Area3D" parent="Static/Arena" unique_id=224561328 node_paths=PackedStringArray("GameManager")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 33.044)
 script = ExtResource("2_mn0nn")
-gameManager = NodePath("../../../Managers/GameManager")
-team = 2
+GameManager = NodePath("../../../Managers/GameManager")
+Team = 2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Static/Arena/TeamB Goal" unique_id=510915902]
 shape = SubResource("BoxShape3D_lq7nq")
@@ -149,7 +149,7 @@ max_contacts_reported = 1
 linear_damp = 0.3
 angular_damp = 0.2
 script = ExtResource("5_mn0nn")
-forfuckssake = 0.2
+VelocityStopThreshold = 0.2
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Dynamic/Ball" unique_id=986913239]
 shape = SubResource("SphereShape3D_drvgu")

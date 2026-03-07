@@ -3,7 +3,7 @@ import numpy as np
 import torch
 import torch.nn as nn
 from torch.optim import Adam
-from neural_network import Actor_critic_neural_network
+from neural_network import ActorCriticNeuralNetwork
 
 def get_device(device=None):
     """
@@ -26,10 +26,10 @@ def get_device(device=None):
     else:
         return torch.device('cpu')
 
-class PPO_buffer:
+class PPOBuffer:
     def __init__(self, obs_dim, act_dim, size, gamma=0.99, lam=0.97):
         """
-        Docstring for PPO_buffer class:
+        Docstring for PPOBuffer class:
 
         Buffer for storing trajectories experienced by an agent interacting 
         with the environment, and using generalized advantage estimation (GAE)
@@ -191,7 +191,7 @@ def update(ac, buf, pi_optimizer, vf_optimizer, train_pi_iters=80,
     
     Args:
         ac: actor-critic model
-        buf: PPO_buffer with trajectory data
+        buf: PPOBuffer with trajectory data
         pi_optimizer: optimizer for policy network
         vf_optimizer: optimizer for value network
         train_pi_iters: number of gradient steps for policy
@@ -240,7 +240,7 @@ def update(ac, buf, pi_optimizer, vf_optimizer, train_pi_iters=80,
         ClipFrac=cf
     )
 
-def ppo_train(env_fn, actor_critic=Actor_critic_neural_network, ac_kwargs=dict(),
+def ppo_train(env_fn, actor_critic=ActorCriticNeuralNetwork, ac_kwargs=dict(),
               steps_per_epoch=4000, epochs=50, gamma=0.99, clip_ratio=0.2,
               pi_lr=3e-4, vf_lr=1e-3, train_pi_iters=80, train_v_iters=80,
               lam=0.97, max_ep_len=1000, target_kl=0.01, save_freq=10, device=None):
@@ -286,7 +286,7 @@ def ppo_train(env_fn, actor_critic=Actor_critic_neural_network, ac_kwargs=dict()
     
     # Set up experience buffer
     local_steps_per_epoch = steps_per_epoch
-    buf = PPO_buffer(obs_dim, act_dim, local_steps_per_epoch, gamma, lam)
+    buf = PPOBuffer(obs_dim, act_dim, local_steps_per_epoch, gamma, lam)
     
     # Set up optimizers for policy and value function
     # NOTE: Adam is for "Adaptive Moment Estimation," extension of SGD method
@@ -354,5 +354,5 @@ def ppo_train(env_fn, actor_critic=Actor_critic_neural_network, ac_kwargs=dict()
 
 
 if __name__ == '__main__':
-    from bobble_fuck_env import bobble_fuck_env_helper
-    ppo_train(env_fn=bobble_fuck_env_helper)
+    from bobble_game_env import make_bobble_env
+    ppo_train(env_fn=make_bobble_env)

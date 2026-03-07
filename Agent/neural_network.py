@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.distributions import Normal, Independent
 
-def neural_network(sizes, activation = nn.Tanh):
+def build_neural_network(sizes, activation = nn.Tanh):
     """
     Docstring for neural_network
 
@@ -19,9 +19,9 @@ def neural_network(sizes, activation = nn.Tanh):
             layers.append(activation())
     return nn.Sequential(*layers)
 
-class Actor_critic_neural_network(nn.Module):
+class ActorCriticNeuralNetwork(nn.Module):
     """
-        Docstring for Actor_critic_neural_network
+        Docstring for ActorCriticNeuralNetwork
 
         Class contains two different neural networks:
         Actor (pi_net): Decides what to do (returns action means)
@@ -35,8 +35,8 @@ class Actor_critic_neural_network(nn.Module):
     def __init__(self, obs_dim=14, act_dim=6, hidden=[256, 256]):
         super().__init__()
 
-        self.pi_net = neural_network([obs_dim] + hidden + [act_dim])
-        self.v_net = neural_network([obs_dim] + hidden + [1])
+        self.pi_net = build_neural_network([obs_dim] + hidden + [act_dim])
+        self.v_net = build_neural_network([obs_dim] + hidden + [1])
         self.log_std = nn.Parameter(-0.5 * torch.ones(act_dim))
     
     def forward(self, obs):

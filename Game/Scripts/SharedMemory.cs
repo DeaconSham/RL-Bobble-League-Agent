@@ -20,7 +20,7 @@ public class SharedMemory {
     private MemoryMappedFile _mmf;
     private MemoryMappedViewAccessor _accessor;
     
-    public string SharedMemoryName = "BobbleFuckState";
+    public string SharedMemoryName = "BobbleGameState";
     public bool CreateSharedMemory = true;
 
     public SharedMemory() {
@@ -142,7 +142,7 @@ public class SharedMemory {
         try {
             _accessor?.Dispose();
             _mmf?.Dispose();
-        } catch (Exception e) { // catching them errors
+        } catch (Exception e) {
             GD.PrintErr($"Error during cleanup: {e.Message}");
         }
     }
