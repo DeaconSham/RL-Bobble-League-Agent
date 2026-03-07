@@ -4,96 +4,29 @@ using System.IO;
 
 public partial class DataManager : Node {
 
-    // ……………………………………//"~-,_)/ _/''\....('_,-~-|' . „„--„
+    private const int TeamAId = 1;
+    private const int TeamBId = 2;
 
-    // ………………………………-~*")"/'~)||||||/'\'\"/'~-, /'||\:,-~"""'\ .'/' '(, ,-~-, \,
+    SharedMemory _memory;
 
-    // …………………………….._„-~" |||||||||||||||||||||||'\/'|||||||||||||\\-~"||"~--,/',,--"|//'"|(
-
-    // ………………………………'\;;;(/'|||||||||||||||||||||||||||||||||||||||||||||||||||(,-~"|||||||(__"~-|
-
-    // …………………………__….'\,/||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||-~-„_)
-
-    // ……………………_„„-~/||'\;;;/'|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||("*~-„
-
-    // …………………...(;;///|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||'\
-
-    // ……………………///||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||)
-
-    // ………………….||||||||||||||||||||||||||||||||||||\\\\\|||||||||\\\\||||||||||||||||||///|||||||||||||||||||||||||||(
-
-    // ……………….,/"'|||||||||||||||||||||||||||||||/' . . . . . . .\\\\\\\||||////// . . . . \\///// \\||||||||||) ,
-
-    // ……………….|||||||||||||||||||||||||||||||||/' . . . . . . . . . . . . . . . . . . . . . . . . . '\\||||||/ /)
-
-    // ……………..._)||||||||||||||||||||||||||||/' . . . . . . . . . . . . . . . . . . . . . . . . . . . .'\|||||||/
-
-    // ……………,/'|||||||||||||||||||||||||||||||| . . . . . . . . . . . . . . . . . . . . . . . . . . . . . '\|||||(;;;;)
-
-    // ……………(|||||||||||||||||||||||||||||||| . . . . . . . . . . . . ,, . . .~--- . .__ .-~~ ~ . . . '|||||/""
-
-    // …………….."\||||||||||||||||||||||||||||\\;;; . . . . . . .-~' . . . . . . . . . . . . . . . . . . . . \|||(,/'
-
-    // ………………..||||||||||||||||||||||||||||||// . . . . . . . . . . . . . . . . . . . . . . . . . . „„„„\\\|||||)
-
-    // ………………..||||||||||||||||||||||||||||/ . . . . . . . _„„„„„_______ . . . . . . . .:;;||||///~"'||/
-
-    // ………………'\|||//||||||||||||||||||||:: . . . . . . .;;/'||||||||||||||||||||||//; . . . . . . /'""__ . . .'|
-
-    // ………………../' :/""~|||||||||||| . . . . . . :::: . . .__„„„„„__:::;;;; . . . . ;;-~*|*~-„ . /
-
-    // ………………..|.:|: . .:'\|||||||| . . . . . . . _ „-~"-~~*"¯¯ ;;::::: . . . . .;;'*~'~*"';; '||
-
-    // ………………..|.:|:. ./// ||||||| . . . . . . . . . . .' -- -- - ~' ::::::: . . . . .|: .' ~ . .:::;|
-
-    // ………………..'|:'|: ::|\ '|||||| . . . . . . . . . . . . . . . . . . .::: . . . . . .'| . . . . . . .|
-
-    // ………………...'\:'\::: .¯|||||||| .: : : : : :: . . . . . . . . . . . :: . . . . . . . . . . . . . |
-
-    // …………………..'\:: . . '|||||||||| : : : :: :: : :: . . . . . . . .::;;:: .: : . . .| . . . . . |
-
-    // …………………….'\,_ .||||||||||| : : : : : : : : : : : . . . . .( . . .___ . . _ |:: . . .|'
-
-    // ……………………….¯¯¯'\||||||: : : : : : : : : : : . . . . . . ."~"""""~-~"~' :: . ./'           he's an importer-exporter guy 
-
-    // ……………………………/'| : : : : : : : : : : : : : . . . . . . / : : : ;;; : : : : : :'|
-
-    // …………………………,/';;'|:'\ : : : : : : : : : : : : . . . . . .. . . ;;;;;::: : : : : '|
-
-    // ………………………,/';;;;;;'|::'~, : : : : : : : : : : : ;;_„„„___„„„___„„„„---; : :'|a
-
-    // ………………….,-~*;;;;;;;;;|::::::'~, : : : : : : : : :;; : : '~,_ . . . . . . ,/' : :,/''*~-„_g
-
-    // …………_„„„--~";;;;;;;;;;;;;;;|:::::::::: ' , : : : : : : : :.. . . . .¯¯""""""¯ : : /';;;;;;;;;;¯"~-,a
-
-    // …_„„-~"¯;;;;;;;;;;;;;;;;;;;;;;;;;'\:::::::::::::;;'\: : : : : : : : : : : : . . . . . : : /';;;;;;;;;;;;;;;;;;;;"~-,_
-
-    // *¯;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;'\::::::: : : :::::'~-, : : : : . . . . . . . . . : :|;;;;;;;;;;;;;;;;;;;;;;;;;;;;¯"~-,
-
-    // ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;'\::: : : : : : ::: : :'~-„__ . . . . . . . _„~';;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;'*~-,
-
-    // ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;'\::::::::: : : : :::: . . .¯¯¯¯¯¯¯¯¯/;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    SharedMemory memory;
-
-    // godgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgodgod!
-    [Export] Node players;
-    [Export] RigidBody3D ball;
+    [Export] Node Players;
+    [Export] RigidBody3D Ball;
 
     public void Export(bool done = false, float reward = 0f) {
-        // the scores can be included maybe idk will have to fist myself before i know
-        SendToMemory(TeamPositions(1), TeamPositions(2), new Vector2(ball.Position.X, ball.Position.Z), done);
+        SendToMemory(GetTeamPositions(TeamAId), GetTeamPositions(TeamBId), new Vector2(Ball.Position.X, Ball.Position.Z), done, reward);
     }
 
-    float[] TeamPositions(int team) {
-        int teamSize = players.GetChildCount() / 2;
+    float[] GetTeamPositions(int team) {
+        int teamSize = Players.GetChildCount() / 2;
         float[] teamArray = new float[teamSize * 2];
 
-        for (int i = 0; i < players.GetChildCount(); i += 2) {
-            Player player = (Player)(players.GetChild(i)); // yeah bro because casting would totally save us from an error bro
-            if (player.team == team) {
-                teamArray[i] = player.Position.X;
-                teamArray[i + 1] = player.Position.Z;
+        int idx = 0;
+        for (int i = 0; i < Players.GetChildCount(); i++) {
+            Player player = (Player)(Players.GetChild(i));
+            if (player.Team == team) {
+                teamArray[idx] = player.Position.X;
+                teamArray[idx + 1] = player.Position.Z;
+                idx += 2;
             }
         }
 
@@ -110,8 +43,8 @@ public partial class DataManager : Node {
         Array.Copy(teamPositions, 0, positionArray, 0, teamPositions.Length);
         Array.Copy(ballPositionArray, 0, positionArray, teamPositions.Length, ballPositionArray.Length);
 
-        memory.WriteReward(reward);
-        memory.SendStepResults(positionArray, 0, done);
+        _memory.WriteReward(reward);
+        _memory.SendStepResults(positionArray, 0, done);
     }
 
     unsafe void Import() {
@@ -119,11 +52,11 @@ public partial class DataManager : Node {
     }
 
     public override void _EnterTree() {
-        memory = new SharedMemory();
+        _memory = new SharedMemory();
     }
 
     public float[] ProcessRequests(out bool resetRequested) {
-        return memory.ProcessRequests(out resetRequested);
+        return _memory.ProcessRequests(out resetRequested);
     }
 
 }
