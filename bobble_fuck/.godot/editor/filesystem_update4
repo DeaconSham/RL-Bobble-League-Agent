@@ -1,0 +1,6 @@
+res://Scripts/GameManager.cs
+res://Scripts/Ball.cs
+res://Scripts/Player.cs
+res://Scripts/TeamGoal.cs
+res://Scripts/PlayerSpawn.cs
+res://Scenes/scene.tscn
