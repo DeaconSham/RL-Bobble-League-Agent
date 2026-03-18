@@ -9,7 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cprro5aixexti" path="res://Textures/soccer-and-football-seamless-pattern-sport-ball-texture-football-background-black-and-white-pattern-with-soccer-geometric-hexagons-illustration-on-white-background-vector.jpg" id="5_lnogb"]
 [ext_resource type="Script" uid="uid://x57bo1mj16e" path="res://Scripts/Ball.cs" id="5_mn0nn"]
 [ext_resource type="Script" uid="uid://dlkj0lhfl71uo" path="res://Scripts/GameManager.cs" id="6_6yy46"]
-[ext_resource type="Texture2D" uid="uid://crl5ti1q6m56p" path="res://Textures/istockphoto-1334434982-612x612.jpg" id="11_fi6k0"]
+[ext_resource type="Texture2D" uid="uid://crl5ti1q6m56p" path="res://Texture/istockphoto-1334434982-612x612.jpg" id="11_fi6k0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f6sb3"]
 albedo_color = Color(7.123351e-06, 0.7028196, 0.9173508, 1)
@@ -60,7 +60,7 @@ spawns = NodePath("../../Static/PlayerSpawns")
 TeamA = SubResource("StandardMaterial3D_f6sb3")
 TeamB = SubResource("StandardMaterial3D_mn0nn")
 PlayerPrefab = ExtResource("2_u3cyc")
-CurrentPlayMode = 1
+CurrentPlayMode = 2
 jumps_care = NodePath("../../Ui/TextureRect")
 
 [node name="DataManager" type="Node" parent="Managers" unique_id=759550437]
